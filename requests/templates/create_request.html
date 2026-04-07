@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/create_request.css' %}">
+    <title>Create Request</title>
+</head>
+
+<body>
+    <div class="page-container">
+
+        <div class="quick-requests">
+            <p class="section-title">Choose a quick request or describe your own below</p>
+
+            <div class="quick-grid">
+                {% for t in templates %}
+                <div class="quick-card" onclick="fillRequest('{{ t.title }}', '{{ t.description }}')">
+
+                    <h3>{{ t.title }}</h3>
+
+                    {% if t.description %}
+                    <p>{{ t.description }}</p>
+                    {% endif %}
+
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="form-card">
+            <form action="{% url 'create_request' %}" method="POST">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" name="product_name" id="titleInput">
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="notes" id="descInput"></textarea>
+                </div>
+
+                <input type="hidden" name="category" id="categoryInput">
+
+                <button class="submit-btn">Submit Request</button>
+            </form>
+        </div>
+
+    </div>
+
+    <script>
+
+        function fillRequest(title, desc) {
+            document.getElementById("titleInput").value = title;
+            document.getElementById("descInput").value = desc;
+        }
+
+    </script>
+</body>
+
+</html>

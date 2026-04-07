@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Brokers</title>
+    {% load static %}
+<link rel="stylesheet" href="{% static 'css/browse_brokers.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+    <div class="container navbar-container">
+
+        <h2 class="logo">BrokersHub</h2>
+
+        <ul class="nav-links">
+            <li><a href="{% url 'landing' %}" class="nav-link">Home</a></li>
+            <li><a href="{% url 'browse_brokers' %}" class="nav-link">Browse Brokers</a></li>
+            <li><a href="{% url 'about' %}" class="nav-link">About Us</a></li>
+        </ul>
+
+    </div>
+</nav>
+
+<!-- HEADER -->
+<section class="browse-header">
+    <div class="container">
+        <h1>Browse Brokers</h1>
+        <p>Find the perfect broker for your needs</p>
+    </div>
+</section>
+
+<!-- FILTERS -->
+<section class="filters">
+    <div class="container filters-container">
+
+        <input type="text" placeholder="Search brokers..." class="filter-input">
+
+        <select class="filter-select">
+            <option>All Categories</option>
+        </select>
+
+        <select class="filter-select">
+            <option>All Cities</option>
+        </select>
+
+    </div>
+</section>
+
+<!-- BROKERS -->
+<section class="brokers-section">
+    <div class="container">
+
+        <p>Found {{ brokers|length }} brokers</p>
+
+        <div class="brokers-grid">
+
+            {% for broker in brokers %}
+
+            <div class="broker-card">
+
+                <!-- AVATAR -->
+                <div class="broker-header">
+                    <div class="broker-avatar">
+                        {{ broker.user.first_name|slice:":1" }}
+                    </div>
+                </div>
+
+                <!-- NAME -->
+                <h3>
+                    {{ broker.user.first_name }} {{ broker.user.last_name }}
+                </h3>
+
+                <!-- ⭐ RATING -->
+                <div class="broker-rating">
+                    ⭐ 4.8 <span>(120 reviews)</span>
+                </div>
+
+                <!-- DESCRIPTION -->
+                <p class="broker-description">
+                    {{ broker.description }}
+                </p>
+
+                <!-- CATEGORY + CITY -->
+                <p class="broker-meta">
+                    {{ broker.category.name }} | {{ broker.city.name }}
+                </p>
+
+                <!-- BUTTON -->
+                <div class="broker-footer">
+                    <a href="{% url 'broker_profile' broker.id %}" class="btn btn-primary">
+                        View Profile
+                    </a>
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container footer-container">
+
+        <div class="footer-links">
+            <a href="{% url 'about' %}">About Us</a>
+        </div>
+
+        <div class="footer-contact">
+            <p>Contact us: info@brokershub.com</p>
+            <p>+970-599-999-999</p>
+        </div>
+
+        <div class="footer-copy">
+            <p>© 2026 BrokersHub. All rights reserved.</p>
+        </div>
+
+    </div>
+</footer>
+
+<script>
+    const toggle = document.getElementById("menu-toggle");
+    const links = document.getElementById("nav-links");
+
+    toggle.onclick = () => {
+        links.classList.toggle("active");
+    };
+</script>
+</body>
+</html>

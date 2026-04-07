@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>About Us</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/about-us.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="container navbar-container">
+
+            <h2 class="logo">BrokersHub</h2>
+
+            <div class="menu-toggle" id="menu-toggle">☰</div>
+            <ul class="nav-links" id="nav-links">
+
+                <!-- LINKS -->
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="{% url 'landing' %}">Home</a></li>
+                    <li><a href="{% url 'browse_brokers' %}">Browse Brokers</a></li>
+                    <li><a href="{% url 'about' %}">About Us</a></li>
+                </ul>
+
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="about-section">
+        <div class="container about-container">
+
+            <!-- TEXT -->
+            <div class="about-text">
+                <h2>Why BrokersHub?</h2>
+
+                <ul>
+                    <li>Find trusted brokers easily</li>
+                    <li>Compare offers in one place</li>
+                    <li>Save time and avoid confusion</li>
+                    <li>Make smarter decisions faster</li>
+                </ul>
+
+                <p>
+                    One platform. Clear choices. Better deals.
+                </p>
+            </div>
+
+            <!-- IMAGE -->
+            <div class="about-image">
+                <img src="{% static 'images/about-us.jpg' %}">
+            </div>
+
+        </div>
+    </section>
+
+
+
+    <section class="contact-section">
+        <div class="container contact-container">
+
+            <div class="contact-info">
+                <h2>Start Getting Clients Today</h2>
+                <p>Join a network of trusted brokers and start </p>
+                <p>receiving real customer requests.</p>
+                <p>Show your expertise, send competitive offers, and grow your business faster with BrokersHub.</p>
+            </div>
+
+            <div class="contact-form">
+                <form action="{% url 'join_broker' %}" method="POST">
+                    {% csrf_token %}
+
+                    <input type="text" name="name" placeholder="Your name" class="form-input">
+                    <input type="email" name="email" placeholder="Your email" class="form-input">
+                    <input type="text" name="whatsapp" placeholder="WhatsApp number" class="form-input">
+
+                    <button class="btn btn-primary">Get Started</button>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- COPYRIGHT -->
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div>
+                <a href="{% url 'landing' %}" class="brand footer-brand">BrokersHub</a>
+                <p class="footer-text">
+                    Connecting customers with trusted brokers for smarter and faster transactions.
+                </p>
+            </div>
+
+            <div>
+                <h3>Quick Links</h3>
+                <a href="{% url 'landing' %}" class="footer-link">Home</a>
+                <a href="{% url 'browse_brokers' %}" class="footer-link">Browse Brokers</a>
+                <a href="{% url 'about' %}" class="footer-link">About Us</a>
+            </div>
+
+            <div>
+                <h3>Contact Info</h3>
+                <p class="footer-text">Email: info@brokershub.com</p>
+                <p class="footer-text">Phone: +1 (555) 123-4567</p>
+                <p class="footer-text">Support: Mon - Fri, 9AM - 6PM</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 BrokersHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+
+        const toggle = document.getElementById("menu-toggle");
+        const links = document.getElementById("nav-links");
+
+        toggle.addEventListener("click", () => {
+            links.classList.toggle("active");
+        });
+
+    </script>
+
+</body>
+
+</html>

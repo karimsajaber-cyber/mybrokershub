@@ -1,0 +1,205 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Broker Profile</title>
+    <link rel="stylesheet" href="{% static 'css/broker_profile.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container navbar-container">
+
+            <h2 class="logo">BrokersHub</h2>
+
+            <div class="menu-toggle" id="menu-toggle">☰</div>
+            <ul class="nav-links" id="nav-links">
+
+                <!-- LINKS -->
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="{% url 'landing' %}">Home</a></li>
+                    <li><a href="{% url 'browse_brokers' %}">Browse Brokers</a></li>
+                    <li><a href="{% url 'about' %}">About Us</a></li>
+                </ul>
+
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container hero-card">
+            <div class="hero-left">
+                <div class="avatar">{{ broker.business_name|slice:":1"|upper }}</div>
+
+                <div class="hero-info">
+                    <span class="tag">Broker Profile</span>
+                    <h1>{{ broker.business_name }}</h1>
+
+                    <div class="info-row">
+                        {% if broker.is_verified %}
+                            <span class="verified-badge">Verified Broker</span>
+                        {% endif %}
+                        <span class="rating">&#9733; {{ broker.average_rating|floatformat:1 }}</span>
+                        <span class="reviews">{{ broker.total_reviews }} reviews</span>
+                    </div>
+
+                    <p class="meta">
+                        {% if broker.city %}
+                            {{ broker.city.name }}
+                        {% else %}
+                            Location not added
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+
+            <div class="hero-right">
+                <a href="{% url 'create_request' %}" class="btn btn-primary">Contact Broker</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container stats-grid">
+            <div class="card stat-card">
+                <h3>{{ broker.total_reviews }}</h3>
+                <p>Total Reviews</p>
+            </div>
+
+            <div class="card stat-card">
+                <h3>{{ broker.average_rating|floatformat:1 }}/5</h3>
+                <p>Average Rating</p>
+            </div>
+
+            <div class="card stat-card">
+                <h3>
+                    {% if broker.is_verified %}
+                        Yes
+                    {% else %}
+                        No
+                    {% endif %}
+                </h3>
+                <p>Verified Status</p>
+            </div>
+
+            <div class="card stat-card">
+                <h3>
+                    {% if broker.is_active %}
+                        Active
+                    {% else %}
+                        Offline
+                    {% endif %}
+                </h3>
+                <p>Account Status</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container content-grid">
+            <div class="card about-card">
+                <h2>About This Broker</h2>
+                <p>
+                    {% if broker.description %}
+                        {{ broker.description }}
+                    {% else %}
+                        This broker has not added a profile description yet.
+                    {% endif %}
+                </p>
+            </div>
+
+            <div class="card details-card">
+                <h2>Quick Details</h2>
+                <div class="detail-item">
+                    <span class="detail-label">Business Name</span>
+                    <span class="detail-value">{{ broker.business_name }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">WhatsApp</span>
+                    <span class="detail-value">{{ broker.whatsapp_number }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Location</span>
+                    <span class="detail-value">
+                        {% if broker.city %}
+                            {{ broker.city.name }}
+                        {% else %}
+                            Not specified
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Profile Access</span>
+                    <span class="detail-value">
+                        {% if broker.show_whatsapp_after_accept %}
+                            Shared after request acceptance
+                        {% else %}
+                            Private until approval
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="card reviews-card">
+                <div class="section-head">
+                    <h2>Reviews Snapshot</h2>
+                    <p>Recent customer impressions shown in a simple summary layout.</p>
+                </div>
+
+                <div class="reviews-grid">
+                    <div class="review-item">
+                        <strong>Noor A.</strong>
+                        <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                        <p>Fast response and very clear communication throughout the process.</p>
+                    </div>
+
+                    <div class="review-item">
+                        <strong>Khaled M.</strong>
+                        <span class="review-stars">&#9733;&#9733;&#9733;&#9733;</span>
+                        <p>Professional service and fair pricing with a smooth overall experience.</p>
+                    </div>
+
+                    <div class="review-item">
+                        <strong>Reem S.</strong>
+                        <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                        <p>Everything felt organized and trustworthy from the first message.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div>
+                <a href="{% url 'landing' %}" class="brand footer-brand">BrokersHub</a>
+                <p class="footer-text">
+                    Connecting customers with trusted brokers for smarter and faster transactions.
+                </p>
+            </div>
+
+            <div>
+                <h3>Quick Links</h3>
+                <a href="{% url 'landing' %}" class="footer-link">Home</a>
+                <a href="{% url 'browse_brokers' %}" class="footer-link">Browse Brokers</a>
+                <a href="{% url 'about' %}" class="footer-link">About Us</a>
+            </div>
+
+            <div>
+                <h3>Contact Info</h3>
+                <p class="footer-text">Email: info@brokershub.com</p>
+                <p class="footer-text">Phone: +1 (555) 123-4567</p>
+                <p class="footer-text">Support: Mon - Fri, 9AM - 6PM</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 BrokersHub. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
