@@ -47,6 +47,18 @@ INSTALLED_APPS = [
     
 ]
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_PORT = 2525
+
+EMAIL_HOST_USER = '0e1c25a702aa10'
+EMAIL_HOST_PASSWORD ='6f8dfc357dba01'
+EMAIL_USE_TLS = True
+
+# 'brokerhub-team@outlook.com'
+# 'brokers@12345'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
