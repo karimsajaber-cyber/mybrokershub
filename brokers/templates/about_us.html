@@ -3,39 +3,20 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us</title>
 
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/about-us.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/about-us.css' %}">
 </head>
 
 <body>
+    {% include 'partials/navbar.html' %}
 
-    <nav class="navbar">
-        <div class="container navbar-container">
-
-            <h2 class="logo">BrokersHub</h2>
-
-            <div class="menu-toggle" id="menu-toggle">☰</div>
-            <ul class="nav-links" id="nav-links">
-
-                <!-- LINKS -->
-                <ul class="nav-links" id="nav-links">
-                    <li><a href="{% url 'landing' %}">Home</a></li>
-                    <li><a href="{% url 'browse_brokers' %}">Browse Brokers</a></li>
-                    <li><a href="{% url 'about' %}">About Us</a></li>
-                </ul>
-
-        </div>
-    </nav>
-
-    <!-- HERO -->
     <section class="about-section">
         <div class="container about-container">
-
-            <!-- TEXT -->
             <div class="about-text">
                 <h2>Why BrokersHub?</h2>
 
@@ -51,19 +32,14 @@
                 </p>
             </div>
 
-            <!-- IMAGE -->
             <div class="about-image">
                 <img src="{% static 'images/about-us.jpg' %}">
             </div>
-
         </div>
     </section>
 
-
-
     <section class="contact-section">
         <div class="container contact-container">
-
             <div class="contact-info">
                 <h2>Start Getting Clients Today</h2>
                 <p>Join a network of trusted brokers and start
@@ -91,12 +67,10 @@
             </div>
 
             <div class="contact-box">
-
                 <form action="{% url 'contact_us' %}" method="POST">
                     {% csrf_token %}
 
                     {% with errors=form_errors old=old_data %}
-
                     <div class="input-group">
                         <input type="text" name="name" placeholder="Your Name" value="{{ old.name|default:'' }}">
                         {% if errors.name %}
@@ -124,17 +98,14 @@
                         <span class="error-text">{{ errors.message }}</span>
                         {% endif %}
                     </div>
-
                     {% endwith %}
 
                     <button type="submit">Send Message</button>
                 </form>
-
             </div>
-
+        </div>
     </section>
 
-    <!-- COPYRIGHT -->
     <footer class="footer">
         <div class="container footer-grid">
             <div>
@@ -164,16 +135,8 @@
         </div>
     </footer>
 
+    {% include 'partials/navbar_script.html' %}
     <script>
-
-        const toggle = document.getElementById("menu-toggle");
-        const links = document.getElementById("nav-links");
-
-        toggle.addEventListener("click", () => {
-            links.classList.toggle("active");
-        });
-
-
         setTimeout(() => {
             const alerts = document.querySelectorAll('.custom-alert');
             alerts.forEach(alert => {
@@ -181,7 +144,6 @@
                 alert.style.transform = 'translateX(30px)';
             });
         }, 3000);
-
     </script>
 
 </body>

@@ -1,13 +1,17 @@
 from django.shortcuts import render ,redirect, get_object_or_404
 from .models import BrokerProfile
+from core.models import Category
+from locations.models import City
 from django.contrib import messages
 from django.core.mail import send_mail
+from django.http import JsonResponse
+
 import time #for not letting Mailtrap consider emails as spams
             #  when the site identifies the delay as many emails
 
 
 def landing_page(request):
-    brokers = BrokerProfile.objects.all()[:3]
+    brokers = BrokerProfile.objects.all()
     
     context = {
         "brokers": brokers,
@@ -32,14 +36,68 @@ def about(request):
 
 
 def browse_brokers(request):
+
     brokers = BrokerProfile.objects.all()
 
     context = {
-        "brokers": brokers
+        'brokers': brokers,
+        'categories': Category.objects.all(),
+        'cities': City.objects.all(),
     }
 
-    return render(request, "browse_brokers.html", context)
+    return render(request, 'browse_brokers.html', context)
 
+
+def filter_brokers(request):
+
+    brokers = BrokerProfile.objects.all()
+
+    category_id = request.GET.get('category')
+    city_id = request.GET.get('city')
+    search = request.GET.get('search')
+
+    # ✅ CATEGORY (correct relation)
+    if category_id:
+        brokers = brokers.filter(
+            platforms__platform__category_id=category_id
+        ).distinct()
+
+    # ✅ CITY
+    if city_id:
+        brokers = brokers.filter(city_id=city_id)
+
+    # ✅ SEARCH
+    if search:
+        brokers = brokers.filter(
+            user__first_name__icontains=search
+        ) | brokers.filter(
+            user__last_name__icontains=search
+        ) | brokers.filter(
+            business_name__icontains=search
+        )
+        brokers = brokers.distinct()
+
+    data = []
+
+    for broker in brokers:
+
+        categories = []
+
+        # ✅ correct accessor
+        for bp in broker.platforms.all():
+            name = bp.platform.category.name
+            if name not in categories:
+                categories.append(name)
+
+        data.append({
+            'id': broker.id,
+            'name': broker.user.first_name + " " + broker.user.last_name,
+            'description': broker.description,
+            'categories': categories,
+            'city': broker.city.name if broker.city else "Not specified",
+        })
+
+    return JsonResponse({'brokers': data})
 
 
 def broker_profile(request, id):
