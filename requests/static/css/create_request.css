@@ -1,5 +1,5 @@
-  body {
-            background: #0f172a;
+    body {
+            background: white;
             color: #fff;
             font-family: Arial, sans-serif;
         }
@@ -22,8 +22,14 @@
         }
 
         .form-card {
-            background: #1e293b;
+            margin:auto;
+            background:
+        radial-gradient(circle at top left, rgba(116, 150, 255, 0.28), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.16), transparent 28%),
+        linear-gradient(135deg, #3f65ff 0%, #5b48f2 48%, #7f35db 100%);
+        ;
             padding: 30px;
+            width:550px;
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
@@ -35,17 +41,18 @@
         label {
             display: block;
             margin-bottom: 8px;
-            font-size: 14px;
+            font-size: 20px;
             color: #cbd5f5;
+            font-weight:bold;
         }
 
         input, textarea {
             width: 100%;
-            padding: 12px;
+            padding: 12px 0px;
             border-radius: 8px;
             border: none;
             outline: none;
-            background: #0f172a;
+            background: rgb(255, 252, 252);
             color: #fff;
         }
 
@@ -59,19 +66,20 @@
         }
 
         .submit-btn {
-            width: 100%;
+            margin : 10px 133px 0px;
+            width: 50%;
             padding: 12px;
-            background: #6366f1;
+            background:#f6f6f6;
             border: none;
             border-radius: 8px;
-            color: white;
-            font-weight: bold;
+            color: #6366f1;
+            font-weight: bolder;
             cursor: pointer;
             transition: 0.3s;
         }
 
         .submit-btn:hover {
-            background: #4f46e5;
+            background: #a0b99f;
         }
 
         .category-section {
@@ -79,8 +87,11 @@
 }
 
 .section-title {
-    margin-bottom: 10px;
-    color: #cbd5f5;
+    margin:0 0 40px 0 ;
+    font-size: 30px;
+    color: black ;
+    text-align: center;
+
 }
 
 .quick-grid {
@@ -92,7 +103,12 @@
 }
 
 .quick-card {
-    background: #1e293b;
+    background: 
+        radial-gradient(circle at top left, rgba(116, 150, 255, 0.28), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.16), transparent 28%),
+        linear-gradient(135deg, #3f65ff 0%, #5b48f2 48%, #7f35db 100%);
+        ;
+
     padding: 20px;
     border-radius: 12px;
     cursor: pointer;
@@ -112,8 +128,9 @@
 }
 
 .quick-card p {
-    font-size: 13px;
-    color: #94a3b8;
+    font-size: 11px;
+    color: #ffffff;
+    font-weight: bold;
 }
 .quick-item {
     margin-bottom: 10px;

@@ -14,11 +14,20 @@ body {
     background: #f5f7fb;
     color: #333;
 }
+a {
+    text-decoration: none;
+}
+
+video {
+    display: block;
+    width: 100%;
+}
 
 .container {
-    width: 90%;
-    max-width: 900px;
-    margin:auto;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 /* NAVBAR */
@@ -28,14 +37,16 @@ body {
         radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.16), transparent 28%),
         linear-gradient(135deg, #3f65ff 0%, #5b48f2 48%, #7f35db 100%);
     color: #ffffff;
-    padding: 15px 60px;
-    border-bottom: 1px solid #ddd;
+    padding: 20px 50px;
+    border-bottom: 1px solid #fdf5f5;
 }
 
 .navbar-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
+    position: relative;
 }
 
 
@@ -55,6 +66,7 @@ body {
     list-style: none;
     display: flex;
     gap: 30px;
+    align-items: center;
     color: #ffffff;
 }
 
@@ -67,6 +79,7 @@ a {
     text-decoration: none;
     color: #ffffff;
     font-weight: 500;
+    position: relative;
 }
 
 .menu-toggle {
@@ -80,7 +93,7 @@ a {
     content: "";
     width: 0%;
     height: 2px;
-    background: #4f46e5;
+    background: #e6d2f7;
     position: absolute;
     bottom: -5px;
     left: 0;
@@ -92,7 +105,13 @@ a {
 }
 
 .nav-links a:hover {
-    color: #4f46e5;
+    color: #e6d2f7;
+}
+
+
+
+.nav-links a:hover {
+    color: #e6d2f7;
 }
 
 
@@ -372,15 +391,33 @@ a {
 }
 
 @media (max-width: 700px) {
-    .navbar-inner,
     .hero-left {
         flex-direction: column;
         align-items: flex-start;
     }
 
+    .menu-toggle {
+        display: block;
+    }
+
     .nav-links {
-        flex-wrap: wrap;
+        display: none;
+        position: absolute;
+        top: calc(100% + 10px);
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        align-items: flex-start;
         gap: 14px;
+        padding: 18px;
+        border-radius: 16px;
+        background: rgba(56, 39, 200, 0.96);
+        box-shadow: 0 10px 24px rgba(22, 22, 68, 0.18);
+        z-index: 10;
+    }
+
+    .nav-links.active {
+        display: flex;
     }
 
     .hero-card {

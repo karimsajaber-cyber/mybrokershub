@@ -1,134 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browse Brokers</title>
     {% load static %}
-<link rel="stylesheet" href="{% static 'css/browse_brokers.css' %}">
+    <link rel="stylesheet" href="{% static 'css/browse_brokers.css' %}">
 </head>
+
 <body>
-    <nav class="navbar">
-    <div class="container navbar-container">
+    {% include 'partials/navbar.html' %}
 
-        <h2 class="logo">BrokersHub</h2>
+    <section class="browse-header">
+        <div class="container">
+            <h1>Browse Brokers</h1>
+            <p>Find the perfect broker for your needs</p>
+        </div>
+    </section>
 
-        <ul class="nav-links">
-            <li><a href="{% url 'landing' %}" class="nav-link">Home</a></li>
-            <li><a href="{% url 'browse_brokers' %}" class="nav-link">Browse Brokers</a></li>
-            <li><a href="{% url 'about' %}" class="nav-link">About Us</a></li>
-        </ul>
+    <section class="filters">
+        <div class="container filters-container">
+            <input type="text" id="search" placeholder="Search brokers..." class="filter-input">
 
-    </div>
-</nav>
+            <select id="category" class="filter-select">
+                <option value="">All Categories</option>
+                {% for cat in categories %}
+                <option value="{{ cat.id }}">{{ cat.name }}</option>
+                {% endfor %}
+            </select>
 
-<!-- HEADER -->
-<section class="browse-header">
-    <div class="container">
-        <h1>Browse Brokers</h1>
-        <p>Find the perfect broker for your needs</p>
-    </div>
-</section>
+            <select id="city" class="filter-select">
+                <option value="">All Cities</option>
+                {% for city in cities %}
+                <option value="{{ city.id }}">{{ city.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </section>
 
-<!-- FILTERS -->
-<section class="filters">
-    <div class="container filters-container">
+    <section class="brokers-section">
+        <div class="container">
+            <p id="resultsCount">Found {{ brokers|length }} brokers</p>
 
-        <input type="text" placeholder="Search brokers..." class="filter-input">
+            <div class="brokers-grid" id="brokersGrid">
+                {% for broker in brokers %}
+                <div class="broker-card">
+                    <div class="broker-header">
+                        <div class="broker-avatar">
+                            {{ broker.user.first_name|slice:":1" }}
+                        </div>
+                    </div>
 
-        <select class="filter-select">
-            <option>All Categories</option>
-        </select>
+                    <h3>
+                        {{ broker.user.first_name }} {{ broker.user.last_name }}
+                    </h3>
 
-        <select class="filter-select">
-            <option>All Cities</option>
-        </select>
+                    <div class="broker-rating">
+                        ⭐ 4.8 <span>(120 reviews)</span>
+                    </div>
 
-    </div>
-</section>
+                    <p class="broker-description">
+                        {{ broker.description }}
+                    </p>
 
-<!-- BROKERS -->
-<section class="brokers-section">
-    <div class="container">
+                    <div class="broker-meta">
+                        {% for bp in broker.platforms.all %}
+                        <span class="category-badge">
+                            {{ bp.platform.category.name }}
+                        </span>
+                        {% endfor %}
 
-        <p>Found {{ brokers|length }} brokers</p>
+                        | {% if broker.city %}{{ broker.city.name }}{% else %}Not specified{% endif %}
+                    </div>
 
-        <div class="brokers-grid">
-
-            {% for broker in brokers %}
-
-            <div class="broker-card">
-
-                <!-- AVATAR -->
-                <div class="broker-header">
-                    <div class="broker-avatar">
-                        {{ broker.user.first_name|slice:":1" }}
+                    <div class="broker-footer">
+                        <a href="{% url 'broker_profile' broker.id %}" class="btn btn-primary">
+                            View Profile
+                        </a>
                     </div>
                 </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 
-                <!-- NAME -->
-                <h3>
-                    {{ broker.user.first_name }} {{ broker.user.last_name }}
-                </h3>
-
-                <!-- ⭐ RATING -->
-                <div class="broker-rating">
-                    ⭐ 4.8 <span>(120 reviews)</span>
-                </div>
-
-                <!-- DESCRIPTION -->
-                <p class="broker-description">
-                    {{ broker.description }}
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div>
+                <a href="{% url 'landing' %}" class="brand footer-brand">BrokersHub</a>
+                <p class="footer-text">
+                    Connecting customers with trusted brokers for smarter and faster transactions.
                 </p>
-
-                <!-- CATEGORY + CITY -->
-                <p class="broker-meta">
-                    {{ broker.category.name }} | {{ broker.city.name }}
-                </p>
-
-                <!-- BUTTON -->
-                <div class="broker-footer">
-                    <a href="{% url 'broker_profile' broker.id %}" class="btn btn-primary">
-                        View Profile
-                    </a>
-                </div>
-
             </div>
 
-            {% endfor %}
+            <div>
+                <h3>Quick Links</h3>
+                <a href="{% url 'landing' %}" class="footer-link">Home</a>
+                <a href="{% url 'browse_brokers' %}" class="footer-link">Browse Brokers</a>
+                <a href="{% url 'about' %}" class="footer-link">About Us</a>
+            </div>
 
+            <div>
+                <h3>Contact Info</h3>
+                <p class="footer-text">Email: info@brokershub.com</p>
+                <p class="footer-text">Phone: +1 (555) 123-4567</p>
+                <p class="footer-text">Support: Mon - Fri, 9AM - 6PM</p>
+            </div>
         </div>
 
-    </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="footer">
-    <div class="container footer-container">
-
-        <div class="footer-links">
-            <a href="{% url 'about' %}">About Us</a>
+        <div class="footer-bottom">
+            <p>&copy; 2026 BrokersHub. All rights reserved.</p>
         </div>
+    </footer>
 
-        <div class="footer-contact">
-            <p>Contact us: info@brokershub.com</p>
-            <p>+970-599-999-999</p>
-        </div>
+    {% include 'partials/navbar_script.html' %}
+    <script>
+        const searchInput = document.getElementById("search");
+        const categorySelect = document.getElementById("category");
+        const citySelect = document.getElementById("city");
+        const grid = document.getElementById("brokersGrid");
+        const resultsCount = document.getElementById("resultsCount");
 
-        <div class="footer-copy">
-            <p>© 2026 BrokersHub. All rights reserved.</p>
-        </div>
+        function fetchBrokers() {
+            const search = searchInput.value;
+            const category = categorySelect.value;
+            const city = citySelect.value;
 
-    </div>
-</footer>
+            fetch(`{% url 'filter_brokers' %}?search=${encodeURIComponent(search)}&category=${encodeURIComponent(category)}&city=${encodeURIComponent(city)}`)
+                .then(res => res.json())
+                .then(data => {
+                    grid.innerHTML = "";
+                    resultsCount.textContent = `Found ${data.brokers.length} brokers`;
 
-<script>
-    const toggle = document.getElementById("menu-toggle");
-    const links = document.getElementById("nav-links");
+                    if (data.brokers.length === 0) {
+                        grid.innerHTML = "<p>No brokers found</p>";
+                        return;
+                    }
 
-    toggle.onclick = () => {
-        links.classList.toggle("active");
-    };
-</script>
+                    data.brokers.forEach(broker => {
+                        grid.innerHTML += `
+                    <div class="broker-card">
+                        <div class="broker-header">
+                            <div class="broker-avatar">
+                                ${broker.name.charAt(0)}
+                            </div>
+                        </div>
+
+                        <h3>${broker.name}</h3>
+
+                        <div class="broker-rating">
+                            ⭐ 4.8 <span>(120 reviews)</span>
+                        </div>
+
+                        <p class="broker-description">
+                            ${broker.description}
+                        </p>
+
+                        <div class="broker-meta">
+                            ${broker.categories.map(cat =>
+                            `<span class="category-badge">${cat}</span>`
+                        ).join('')}
+                            | ${broker.city}
+                        </div>
+
+                        <div class="broker-footer">
+                            <a href="/broker/${broker.id}" class="btn btn-primary">
+                                View Profile
+                            </a>
+                        </div>
+                    </div>
+                `;
+                    });
+                });
+        }
+
+        searchInput.addEventListener("input", fetchBrokers);
+        categorySelect.addEventListener("change", fetchBrokers);
+        citySelect.addEventListener("change", fetchBrokers);
+    </script>
 </body>
+
 </html>

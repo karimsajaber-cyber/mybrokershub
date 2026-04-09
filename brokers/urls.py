@@ -7,5 +7,8 @@ urlpatterns = [
     path('brokers', views.browse_brokers, name='browse_brokers'),
     path('broker/<int:id>', views.broker_profile, name='broker_profile'),
     path('join-broker', views.join_broker, name='join_broker'),
-    path('contact', views.contact_us, name='contact_us')
+    path('contact', views.contact_us, name='contact_us'),
+    path('browse/', views.browse_brokers, name='browse_brokers'),
+    path('filter/', views.filter_brokers, name='filter_brokers'),
+    
 ]

@@ -8,23 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/broker_profile.css' %}">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container navbar-container">
-
-            <h2 class="logo">BrokersHub</h2>
-
-            <div class="menu-toggle" id="menu-toggle">☰</div>
-            <ul class="nav-links" id="nav-links">
-
-                <!-- LINKS -->
-                <ul class="nav-links" id="nav-links">
-                    <li><a href="{% url 'landing' %}">Home</a></li>
-                    <li><a href="{% url 'browse_brokers' %}">Browse Brokers</a></li>
-                    <li><a href="{% url 'about' %}">About Us</a></li>
-                </ul>
-
-        </div>
-    </nav>
+    {% include 'partials/navbar.html' %}
 
     <section class="hero">
         <div class="container hero-card">
@@ -201,5 +185,7 @@
             <p>&copy; 2026 BrokersHub. All rights reserved.</p>
         </div>
     </footer>
+
+    {% include 'partials/navbar_script.html' %}
 </body>
 </html>

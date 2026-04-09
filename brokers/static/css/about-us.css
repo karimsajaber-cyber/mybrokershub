@@ -14,10 +14,20 @@ body {
     background: #f5f7fb;
     color: #333;
 }
+a {
+    text-decoration: none;
+}
+
+video {
+    display: block;
+    width: 100%;
+}
 
 .container {
-    width: 90%;
-    max-width: 900px;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 /* NAVBAR */
@@ -27,20 +37,23 @@ body {
         radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.16), transparent 28%),
         linear-gradient(135deg, #3f65ff 0%, #5b48f2 48%, #7f35db 100%);
     color: #ffffff;
-    padding: 15px 60px;
-    border-bottom: 1px solid #ddd;
+    padding: 20px 0 5px;
+    border-bottom: 1px solid #fdf5f5;
 }
 
 .navbar-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
+    position: relative;
 }
 
 
 .logo {
     color: #dbd6e1;
     font-weight: bold;
+    font-size: 25px;
     transition: 0.3s;
     display: inline-block;
 }
@@ -54,6 +67,7 @@ body {
     list-style: none;
     display: flex;
     gap: 30px;
+    align-items: center;
     color: #ffffff;
 }
 
@@ -66,6 +80,7 @@ a {
     text-decoration: none;
     color: #ffffff;
     font-weight: 500;
+    position: relative;
 }
 
 .menu-toggle {
@@ -93,6 +108,13 @@ a {
 .nav-links a:hover {
     color: #e6d2f7;
 }
+
+
+
+.nav-links a:hover {
+    color: #e6d2f7;
+}
+
 
 
 
@@ -383,25 +405,26 @@ a {
 
     .menu-toggle {
         display: block;
+        color: #ffffff;
     }
 
     .nav-links {
         position: absolute;
-        top: 60px;
+        top: calc(100% + 10px);
         left: 0;
-        width: 100%;
-        background: white;
+        right: 0;
+        background: rgba(56, 39, 200, 0.96);
         flex-direction: column;
-        align-items: center;
-        gap: 15px;
-        padding: 15px;
-        transform: translateY(-150%);
-        transition: 0.3s ease;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        align-items: flex-start;
+        gap: 14px;
+        padding: 18px;
+        border-radius: 16px;
+        display: none;
+        box-shadow: 0 10px 24px rgba(22, 22, 68, 0.18);
     }
 
     .nav-links.active {
-        transform: translateY(0);
+        display: flex;
     }
 
     .about-container {
