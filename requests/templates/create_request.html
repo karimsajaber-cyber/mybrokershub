@@ -10,6 +10,8 @@
 </head>
 
 <body>
+    {% include 'partials/navbar.html' %} <!-- Added: show the shared top navbar so customers can browse, view requests, or log out from this page. -->
+
     <div class="page-container">
         {% if selected_broker %} <!-- Added: show the broker being contacted when the page is opened from a broker profile. -->
         <div class="selected-broker-box"> <!-- Added: hold the selected broker summary. -->
@@ -141,6 +143,8 @@
             }
         });
     </script>
+
+    {% include 'partials/navbar_script.html' %} <!-- Added: keep the shared navbar mobile toggle working on the create request page. -->
 </body>
 
 </html>
