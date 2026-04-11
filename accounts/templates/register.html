@@ -1,0 +1,58 @@
+{% load static %} <!-- Added: enable static file loading for the auth stylesheet. -->
+<!DOCTYPE html> <!-- Added: declare the document type. -->
+<html lang="en"> <!-- Added: start the register page document. -->
+<head> <!-- Added: start the metadata section. -->
+    <meta charset="UTF-8"> <!-- Added: define UTF-8 encoding. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Added: enable responsive layout on mobile. -->
+    <title>Register</title> <!-- Added: set the browser tab title. -->
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}"> <!-- Added: load the shared auth page styles. -->
+</head> <!-- Added: close the metadata section. -->
+<body> <!-- Added: start the page body. -->
+    <div class="auth-container"> <!-- Added: wrap the auth page content. -->
+        <div class="auth-card"> <!-- Added: create the centered register card. -->
+            <h1 class="auth-title">Create Account</h1> <!-- Added: show the registration heading. -->
+            <p class="auth-text">Register as a customer to contact brokers.</p> <!-- Added: explain the registration purpose. -->
+
+            {% if error_message %} <!-- Added: render the error box only when registration fails. -->
+            <div class="error-box">{{ error_message }}</div> <!-- Added: show the registration validation message. -->
+            {% endif %} <!-- Added: end the conditional error box. -->
+
+            <form method="POST" class="auth-form"> <!-- Added: submit registration details back to this page. -->
+                {% csrf_token %} <!-- Added: protect the form against CSRF. -->
+                <input type="hidden" name="next" value="{{ next }}"> <!-- Added: preserve the redirect target after registration. -->
+
+                <div class="form-group"> <!-- Added: wrap the username field. -->
+                    <label>Username</label> <!-- Added: label the username field. -->
+                    <input type="text" name="username"> <!-- Added: collect the username. -->
+                </div> <!-- Added: close the username field wrapper. -->
+
+                <div class="form-group"> <!-- Added: wrap the email field. -->
+                    <label>Email</label> <!-- Added: label the email field. -->
+                    <input type="email" name="email"> <!-- Added: collect the email address. -->
+                </div> <!-- Added: close the email field wrapper. -->
+
+                <div class="form-group"> <!-- Added: wrap the phone field. -->
+                    <label>Phone</label> <!-- Added: label the phone field. -->
+                    <input type="text" name="phone"> <!-- Added: collect the phone number. -->
+                </div> <!-- Added: close the phone field wrapper. -->
+
+                <div class="form-group"> <!-- Added: wrap the password field. -->
+                    <label>Password</label> <!-- Added: label the password field. -->
+                    <input type="password" name="password"> <!-- Added: collect the password securely. -->
+                </div> <!-- Added: close the password field wrapper. -->
+
+                <div class="form-group"> <!-- Added: wrap the confirm password field. -->
+                    <label>Confirm Password</label> <!-- Added: label the confirm password field. -->
+                    <input type="password" name="confirm_password"> <!-- Added: collect the repeated password securely. -->
+                </div> <!-- Added: close the confirm password field wrapper. -->
+
+                <button type="submit" class="submit-btn">Register</button> <!-- Added: submit the registration form. -->
+            </form> <!-- Added: close the registration form. -->
+
+            <p class="switch-text"> <!-- Added: hold the login page link. -->
+                Already have an account? <a href="{% url 'login' %}?next={{ next|urlencode }}" class="switch-link">Login</a> <!-- Added: let existing customers log in and keep the same destination. -->
+            </p> <!-- Added: close the link helper text. -->
+        </div> <!-- Added: close the auth card. -->
+    </div> <!-- Added: close the page wrapper. -->
+</body> <!-- Added: close the page body. -->
+</html> <!-- Added: close the HTML document. -->

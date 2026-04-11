@@ -6,6 +6,17 @@
             <li><a href="{% url 'landing' %}" class="nav-link">Home</a></li>
             <li><a href="{% url 'browse_brokers' %}" class="nav-link">Browse Brokers</a></li>
             <li><a href="{% url 'about' %}" class="nav-link">About Us</a></li>
+            {% if request.session.role == 'customer' %} <!-- Added: show the customer request page only to customer sessions. -->
+            <li><a href="{% url 'my_requests' %}" class="nav-link">My Requests</a></li> <!-- Added: let customers open their own requests page from the shared navbar. -->
+            {% endif %} <!-- Added: finish the customer-only navbar request link. -->
+            {% if request.session.role == 'broker' %} <!-- Added: show the broker request page only to broker sessions. -->
+            <li><a href="{% url 'broker_requests' %}" class="nav-link">Broker Requests</a></li> <!-- Added: let brokers open only their assigned requests page from the shared navbar. -->
+            {% endif %} <!-- Added: finish the broker-only navbar request link. -->
+            {% if request.session.user_id %} <!-- Changed: show logout in the navbar for any authenticated user session. -->
+            <li><a href="{% url 'logout' %}" class="nav-link">Logout</a></li> <!-- Changed: let both broker and customer log out from the shared navbar. -->
+            {% else %} <!-- Changed: keep the login entry visible only for guests. -->
+            <li><a href="{% url 'login' %}" class="nav-link">Login</a></li> <!-- Changed: keep navbar login available as the broker entry point when no user is signed in. -->
+            {% endif %} <!-- Changed: finish the navbar auth logic. -->
         </ul>
     </div>
 </nav>

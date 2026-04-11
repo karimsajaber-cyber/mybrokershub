@@ -1,0 +1,63 @@
+{% load static %} <!-- Added: enable static file loading for the auth stylesheet. -->
+<!DOCTYPE html> <!-- Added: declare the document type. -->
+<html lang="en"> <!-- Added: start the login page document. -->
+<head> <!-- Added: start the metadata section. -->
+    <meta charset="UTF-8"> <!-- Added: define UTF-8 encoding. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Added: enable responsive layout on mobile. -->
+    <title>Login</title> <!-- Added: set the browser tab title. -->
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}"> <!-- Added: load the shared auth page styles. -->
+</head> <!-- Added: close the metadata section. -->
+<body> <!-- Added: start the page body. -->
+    <div class="auth-container"> <!-- Added: wrap the auth page content. -->
+        <div class="auth-card"> <!-- Added: create the centered login card. -->
+            <h1 class="auth-title">{{ auth_title }}</h1> <!-- Changed: show the role-specific login heading. -->
+            <p class="auth-text">{{ auth_text }}</p> <!-- Changed: show the role-specific login helper text. -->
+
+            {% if error_message %} <!-- Added: render the error box only when login fails. -->
+            <div class="error-box">{{ error_message }}</div> <!-- Added: show the login validation message. -->
+            {% endif %} <!-- Added: end the conditional error box. -->
+
+            <form method="POST" class="auth-form" autocomplete="off"> <!-- Changed: reduce browser autofill on the shared login form. -->
+                {% csrf_token %} <!-- Added: protect the form against CSRF. -->
+                <input type="hidden" name="next" value="{{ next }}"> <!-- Added: preserve the redirect target after login. -->
+                <input type="text" name="fake_username" autocomplete="username" class="hidden-auth-field" tabindex="-1" aria-hidden="true"> <!-- Added: absorb aggressive browser username autofill before the real field. -->
+                <input type="password" name="fake_password" autocomplete="current-password" class="hidden-auth-field" tabindex="-1" aria-hidden="true"> <!-- Added: absorb aggressive browser password autofill before the real field. -->
+
+                <div class="form-group"> <!-- Added: wrap the username field. -->
+                    <label>Username</label> <!-- Added: label the username field. -->
+                    <input type="text" name="username" id="loginUsername" autocomplete="off" autocapitalize="none" spellcheck="false" readonly onfocus="this.removeAttribute('readonly');"> <!-- Changed: keep the visible username field empty until the user actively focuses it. -->
+                </div> <!-- Added: close the username field wrapper. -->
+
+                <div class="form-group"> <!-- Added: wrap the password field. -->
+                    <label>Password</label> <!-- Added: label the password field. -->
+                    <input type="password" name="password" id="loginPassword" autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly');"> <!-- Changed: keep the visible password field empty until the user actively focuses it. -->
+                </div> <!-- Added: close the password field wrapper. -->
+
+                <button type="submit" class="submit-btn">Login</button> <!-- Added: submit the login form. -->
+            </form> <!-- Added: close the login form. -->
+
+            {% if show_register %} <!-- Added: only show the register path when the login page came from the contact broker flow. -->
+            <p class="switch-text"> <!-- Added: hold the register page link. -->
+                Don't have an account? <a href="{% url 'register' %}?next={{ next|urlencode }}" class="switch-link">Register</a> <!-- Added: let new customers register and keep the same destination. -->
+            </p> <!-- Added: close the link helper text. -->
+            {% endif %} <!-- Added: finish the conditional register helper block. -->
+        </div> <!-- Added: close the auth card. -->
+    </div> <!-- Added: close the page wrapper. -->
+    <script> <!-- Added: clear any aggressive browser autofill from the visible login fields when the page loads. -->
+        const loginUsernameField = document.getElementById('loginUsername'); // Added: target the visible username field only.
+        const loginPasswordField = document.getElementById('loginPassword'); // Added: target the visible password field only.
+
+        function clearVisibleLoginFields() { // Added: keep the broker login form visually empty on load.
+            if (loginUsernameField) { // Added: guard against missing username input.
+                loginUsernameField.value = ''; // Added: clear any browser-filled username from the visible field.
+            } // Added: finish the username clear guard.
+            if (loginPasswordField) { // Added: guard against missing password input.
+                loginPasswordField.value = ''; // Added: clear any browser-filled password from the visible field.
+            } // Added: finish the password clear guard.
+        } // Added: finish the login field clear helper.
+
+        window.addEventListener('DOMContentLoaded', clearVisibleLoginFields); // Added: clear the visible fields when the login page is first rendered.
+        window.addEventListener('pageshow', clearVisibleLoginFields); // Added: clear the visible fields again when the page is restored from browser history.
+    </script> <!-- Added: finish the login autofill reset script. -->
+</body> <!-- Added: close the page body. -->
+</html> <!-- Added: close the HTML document. -->

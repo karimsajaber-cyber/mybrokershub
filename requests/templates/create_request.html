@@ -11,13 +11,20 @@
 
 <body>
     <div class="page-container">
+        {% if selected_broker %} <!-- Added: show the broker being contacted when the page is opened from a broker profile. -->
+        <div class="selected-broker-box"> <!-- Added: hold the selected broker summary. -->
+            <p class="selected-broker-text">You are contacting {{ selected_broker.business_name }}.</p> <!-- Added: confirm the selected broker to the customer. -->
+        </div> <!-- Added: close the selected broker summary. -->
+        {% endif %} <!-- Added: end the selected broker summary block. -->
 
         <div class="quick-requests">
             <p class="section-title">Choose a quick request or describe your own below</p>
 
             <div class="quick-grid">
                 {% for t in templates %}
-                <div class="quick-card" onclick="fillRequest('{{ t.title }}', '{{ t.description }}')">
+                <div class="quick-card"
+                     data-title="{{ t.title }}"
+                     data-description="{{ t.description }}">
 
                     <h3>{{ t.title }}</h3>
 
@@ -30,8 +37,9 @@
             </div>
         </div>
         <div class="form-card">
-            <form action="{% url 'create_request' %}" method="POST">
+            <form action="{% url 'create_request' %}" method="POST" id="requestForm">
                 {% csrf_token %}
+                <input type="hidden" name="broker_id" value="{% if selected_broker %}{{ selected_broker.id }}{% endif %}"> <!-- Added: keep the selected broker id during form submission. -->
 
                 <div class="form-group">
                     <label>Title</label>
@@ -49,15 +57,89 @@
             </form>
         </div>
 
+        <div class="form-feedback-wrap"> <!-- Changed: keep validation messages directly under the request form. -->
+            <div class="feedback-box" id="feedbackBox" aria-live="polite"></div> <!-- Changed: place the live feedback under the form instead of at the top of the page. -->
+
+            {% if error_message %} <!-- Added: show backend validation errors returned by the request view under the form. -->
+            <div class="feedback-box show error">{{ error_message }}</div> <!-- Added: render the backend error directly below the form card. -->
+            {% endif %} <!-- Added: end the backend error message block. -->
+        </div> <!-- Added: finish the form feedback wrapper. -->
+
     </div>
 
     <script>
+        const requestForm = document.getElementById("requestForm");
+        const titleInput = document.getElementById("titleInput");
+        const descInput = document.getElementById("descInput");
+        const feedbackBox = document.getElementById("feedbackBox");
+        const quickCards = document.querySelectorAll(".quick-card");
 
         function fillRequest(title, desc) {
-            document.getElementById("titleInput").value = title;
-            document.getElementById("descInput").value = desc;
+            titleInput.value = title;
+            descInput.value = desc || "";
         }
 
+        function showFeedback(message, type) {
+            feedbackBox.textContent = message;
+            feedbackBox.className = "feedback-box show " + type;
+        }
+
+        quickCards.forEach((card) => {
+            card.addEventListener("click", () => {
+                quickCards.forEach((item) => item.classList.remove("selected"));
+                card.classList.add("selected");
+                fillRequest(card.dataset.title, card.dataset.description);
+            });
+        });
+
+        requestForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const productName = titleInput.value.trim();
+            const notes = descInput.value.trim();
+
+            if (!productName || !notes) {
+                showFeedback("Title and description are required.", "error");
+                return;
+            }
+
+            const formData = new FormData(requestForm);
+
+            try {
+                const response = await fetch(requestForm.action, {
+                    method: "POST",
+                    body: formData,
+                    credentials: "same-origin"
+                });
+
+                if (response.redirected && response.url.includes("/login")) { // Added: send the browser to login if the session expires during submit.
+                    window.location.href = response.url; // Added: follow the login redirect outside of fetch.
+                    return; // Added: stop any further submit handling after login redirect.
+                } // Added: finish the login redirect check.
+
+                if (response.redirected && response.url.includes("/create")) { // Added: follow backend redirects back to the form so server-side errors become visible.
+                    window.location.href = response.url; // Added: open the redirected create page with its backend error message.
+                    return; // Added: stop submit handling after returning to the form page.
+                } // Added: finish the create-page redirect check.
+
+                if (response.redirected && (response.url.includes("/browse") || response.url.includes("/brokers"))) { // Added: follow broker-list redirects when the form is missing broker context.
+                    window.location.href = response.url; // Added: return the customer to broker browsing so they can pick a broker first.
+                    return; // Added: stop submit handling after leaving the create page.
+                } // Added: finish the browse redirect check.
+
+                if (response.url.includes("/requests/my")) { // Changed: keep the success path when the backend redirects to the requests list.
+                    requestForm.reset();
+                    quickCards.forEach((card) => card.classList.remove("selected"));
+                    showFeedback("Request submitted successfully.", "success");
+                    window.location.href = response.url; // Added: send the customer directly to the my requests page after a successful submit.
+                    return; // Changed: stop the submit handler after redirecting to the requests list.
+                }
+
+                showFeedback("The request was not submitted. Please check the form and try again.", "error");
+            } catch (error) {
+                showFeedback("A network error prevented submission. Please try again.", "error");
+            }
+        });
     </script>
 </body>
 
