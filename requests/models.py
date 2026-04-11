@@ -23,7 +23,7 @@ class QuoteRequest(models.Model):
 
     product_url = models.URLField(blank=True)
     notes = models.TextField(blank=True)
-
+    broker = models.ForeignKey(BrokerProfile, on_delete=models.CASCADE,null=True)   
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
 
     created_at = models.DateTimeField(auto_now_add=True)

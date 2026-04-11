@@ -1,0 +1,303 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --muted: #62708f;
+    --primary: #5b48f2;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f5f7fb;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+}
+
+.container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.navbar { /* Added: keep the shared navbar styling consistent on the broker requests page. */
+    background:
+        radial-gradient(circle at top left, rgba(116, 150, 255, 0.28), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.16), transparent 28%),
+        linear-gradient(135deg, #3f65ff 0%, #5b48f2 48%, #7f35db 100%); /* Added: reuse the existing navbar gradient. */
+    color: #ffffff; /* Added: keep the navbar text readable. */
+    padding: 20px 0; /* Added: keep the shared navbar spacing. */
+    border-bottom: 1px solid #fdf5f5; /* Added: keep the shared navbar border. */
+}
+
+.navbar-container { /* Added: align the navbar content like the rest of the site. */
+    display: flex; /* Added: keep the navbar items in one row. */
+    justify-content: space-between; /* Added: separate the logo from the navigation links. */
+    align-items: center; /* Added: center the navbar items vertically. */
+    gap: 20px; /* Added: keep a gap between navbar sections. */
+    position: relative; /* Added: keep the mobile menu positioning consistent. */
+}
+
+.logo { /* Added: style the shared navbar brand. */
+    color: #dbd6e1; /* Added: keep the existing navbar brand color. */
+    font-weight: bold; /* Added: keep the brand text emphasized. */
+    transition: 0.3s; /* Added: keep the shared hover transition. */
+    display: inline-block; /* Added: keep the logo transform stable. */
+}
+
+.logo:hover { /* Added: keep the shared logo hover interaction. */
+    transform: scale(1.1); /* Added: match the existing navbar hover effect. */
+    color: #4f46e5; /* Added: match the existing navbar hover color. */
+}
+
+.nav-links { /* Added: style the shared navbar links container. */
+    list-style: none; /* Added: remove default list bullets. */
+    display: flex; /* Added: keep the navbar links in one row. */
+    gap: 30px; /* Added: keep the existing navbar link spacing. */
+    align-items: center; /* Added: center the navbar links vertically. */
+    color: #ffffff; /* Added: keep the navbar link text readable. */
+}
+
+.nav-link,
+a { /* Added: keep the shared navbar link color behavior. */
+    color: white; /* Added: preserve the shared navbar link color. */
+}
+
+.nav-link { /* Added: keep the shared navbar link styling. */
+    font-weight: 500; /* Added: keep the navbar link emphasis. */
+    position: relative; /* Added: anchor the navbar underline effect. */
+}
+
+.menu-toggle { /* Added: keep the mobile navbar trigger available. */
+    display: none; /* Added: hide the mobile trigger by default. */
+    font-size: 22px; /* Added: keep the mobile trigger size. */
+    cursor: pointer; /* Added: show that the mobile trigger is clickable. */
+}
+
+.nav-links a::after { /* Added: keep the shared navbar underline hover effect. */
+    content: ""; /* Added: create the underline element. */
+    width: 0%; /* Added: start the underline hidden. */
+    height: 2px; /* Added: keep the underline subtle. */
+    background: #e6d2f7; /* Added: reuse the existing underline color. */
+    position: absolute; /* Added: position the underline under each link. */
+    bottom: -5px; /* Added: keep the underline offset consistent. */
+    left: 0; /* Added: anchor the underline from the start of the link. */
+    transition: 0.3s; /* Added: animate the underline like the shared navbar. */
+}
+
+.nav-links a:hover::after { /* Added: reveal the underline on hover. */
+    width: 100%; /* Added: expand the underline fully on hover. */
+}
+
+.nav-links a:hover { /* Added: keep the shared navbar hover color. */
+    color: #e6d2f7; /* Added: reuse the existing navbar hover text color. */
+}
+
+.page-header { /* Added: keep the broker page header aligned with the existing request pages. */
+    padding: 36px 0 10px; /* Added: match the existing page header spacing. */
+}
+
+.page-header h1 { /* Added: style the broker page heading with the shared color direction. */
+    color: #3b3b6d; /* Added: keep the shared heading color. */
+    margin-bottom: 8px; /* Added: keep a small gap under the heading. */
+    font-size: 2.1rem; /* Added: match the existing page heading size. */
+}
+
+.page-header p { /* Added: style the broker page helper text. */
+    color: var(--muted); /* Added: keep the shared muted page copy color. */
+    line-height: 1.7; /* Added: keep the helper text readable. */
+}
+
+.requests-section { /* Added: keep the broker requests section spacing aligned with other pages. */
+    padding: 18px 0 50px; /* Added: match the existing request page vertical spacing. */
+}
+
+.notice-box { /* Added: style broker action notices with the shared notice look. */
+    margin-bottom: 20px; /* Added: keep space between the notice and the request cards. */
+    padding: 14px 18px; /* Added: create readable spacing inside the notice box. */
+    border-radius: 12px; /* Added: match the rounded card language. */
+    background: #eef2ff; /* Added: use the shared light accent notice background. */
+    color: #4338ca; /* Added: use the shared notice text color. */
+    font-weight: 700; /* Added: make the notice message easy to scan. */
+}
+
+.requests-grid { /* Added: stack broker request cards cleanly down the page. */
+    display: flex; /* Added: use a simple vertical flex layout. */
+    flex-direction: column; /* Added: keep broker request cards in one column. */
+    align-items: center; /* Added: center the broker request cards in the page. */
+    gap: 20px; /* Added: keep even spacing between broker request cards. */
+}
+
+.request-card { /* Added: style each broker request summary card. */
+    width: min(100%, 700px); /* Added: keep the broker request cards readable without stretching too wide. */
+    background: white; /* Added: use the shared clean card background. */
+    border-radius: 18px; /* Added: match the existing rounded card design. */
+    padding: 24px; /* Added: create balanced inner spacing in the broker cards. */
+    box-shadow: 0 12px 28px rgba(71, 85, 143, 0.1); /* Added: keep the same soft shadow language. */
+    display: flex; /* Added: let the broker card content stack cleanly. */
+    flex-direction: column; /* Added: keep the broker card content in one vertical flow. */
+    gap: 16px; /* Added: create steady spacing inside the broker card. */
+}
+
+.request-top { /* Added: keep the broker request heading and status aligned cleanly. */
+    display: flex; /* Added: place the heading and status in one row when possible. */
+    justify-content: space-between; /* Added: separate the heading block from the status chip. */
+    align-items: flex-start; /* Added: align the heading and chip from the top. */
+    gap: 16px; /* Added: keep spacing between the heading and status. */
+}
+
+.request-top h2 { /* Added: style the broker request title. */
+    color: #2f2f5f; /* Added: use the shared card heading color. */
+    margin-bottom: 6px; /* Added: keep a small gap above the customer line. */
+}
+
+.request-customer { /* Added: style the customer summary line on broker cards. */
+    color: var(--muted); /* Added: keep the customer line muted but readable. */
+}
+
+.request-status { /* Added: keep the broker request status chip consistent with other request pages. */
+    background: #eef2ff; /* Added: use the shared status chip background. */
+    color: var(--primary); /* Added: use the shared status chip text color. */
+    padding: 7px 12px; /* Added: keep the status chip sizing consistent. */
+    border-radius: 999px; /* Added: keep the pill shape. */
+    font-size: 0.82rem; /* Added: keep the status chip text compact. */
+    font-weight: 700; /* Added: make the status chip stand out. */
+    white-space: nowrap; /* Added: stop the status chip from breaking across lines. */
+}
+
+.request-notes { /* Added: style the broker request description preview. */
+    color: var(--muted); /* Added: keep the preview text muted and readable. */
+    line-height: 1.7; /* Added: keep the preview text comfortable to read. */
+    overflow-wrap: anywhere; /* Added: prevent long words from breaking the broker card layout. */
+}
+
+.request-meta { /* Added: keep the broker request metadata readable in one stack. */
+    display: flex; /* Added: keep metadata in one vertical group. */
+    flex-direction: column; /* Added: stack metadata rows. */
+    gap: 8px; /* Added: keep even spacing between metadata rows. */
+    color: #4b5563; /* Added: use the shared metadata text color. */
+}
+
+.request-actions { /* Added: keep the broker card action row simple. */
+    display: flex; /* Added: align broker actions in one row. */
+    justify-content: flex-end; /* Added: place the broker action button at the end of the card. */
+}
+
+.details-link { /* Added: style the broker details button. */
+    display: inline-flex; /* Added: align the button label cleanly. */
+    align-items: center; /* Added: center the button label vertically. */
+    justify-content: center; /* Added: center the button label horizontally. */
+    min-height: 44px; /* Added: give the broker details button a comfortable height. */
+    padding: 0 20px; /* Added: keep the broker details button readable. */
+    border-radius: 12px; /* Added: match the shared rounded action look. */
+    background: linear-gradient(135deg, #5b48f2, #7f35db); /* Added: use the shared accent gradient for the main broker action. */
+    color: white; /* Added: keep the broker details button readable. */
+    font-weight: 700; /* Added: make the broker details action easy to find. */
+}
+
+.empty-state { /* Added: keep the broker empty state aligned with the shared card design. */
+    max-width: 620px; /* Added: keep the empty state readable. */
+    margin: 0 auto; /* Added: center the broker empty state card. */
+    text-align: center; /* Added: keep the empty state copy centered. */
+    background: white; /* Added: use the shared card background. */
+    border-radius: 18px; /* Added: match the shared card rounding. */
+    padding: 24px; /* Added: create balanced empty state spacing. */
+    box-shadow: 0 12px 28px rgba(71, 85, 143, 0.1); /* Added: keep the shared soft card shadow. */
+}
+
+.empty-state h2 { /* Added: style the broker empty state heading. */
+    color: #2f2f5f; /* Added: keep the shared heading color. */
+    margin-bottom: 10px; /* Added: keep a small gap under the heading. */
+}
+
+.empty-state p { /* Added: style the broker empty state copy. */
+    color: var(--muted); /* Added: keep the empty state copy muted and readable. */
+}
+
+.footer {
+    padding-top: 34px;
+    background: #f5f7fb;
+    border-top: 1px solid rgba(223, 228, 242, 0.85);
+}
+
+.footer-grid {
+    display: grid;
+    gap: 36px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+.footer h3 {
+    margin: 0 0 14px;
+    font-size: 1.05rem;
+    color: #333;
+}
+
+.footer-brand {
+    display: inline-block;
+    margin-bottom: 14px;
+    color: #333;
+}
+
+.footer-text,
+.footer-link {
+    display: block;
+    margin: 0 0 10px;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.footer-link:hover {
+    color: var(--primary);
+}
+
+.footer-bottom {
+    margin-top: 32px;
+    padding: 18px 16px 24px;
+    text-align: center;
+    color: var(--muted);
+    border-top: 1px solid rgba(223, 228, 242, 0.85);
+}
+
+@media (max-width: 768px) {
+    .menu-toggle { /* Added: show the shared mobile navbar trigger on smaller screens. */
+        display: block; /* Added: enable the burger menu on mobile. */
+        color: #ffffff; /* Added: keep the trigger readable on the gradient navbar. */
+    }
+
+    .nav-links { /* Added: style the shared mobile navbar dropdown. */
+        position: absolute; /* Added: position the mobile menu under the navbar row. */
+        top: calc(100% + 10px); /* Added: keep the dropdown spacing consistent. */
+        left: 0; /* Added: align the mobile menu to the container start. */
+        right: 0; /* Added: let the mobile menu fill the container width. */
+        background: rgba(56, 39, 200, 0.96); /* Added: reuse the shared mobile navbar background. */
+        flex-direction: column; /* Added: stack the mobile navbar links. */
+        align-items: flex-start; /* Added: align the mobile links to the start. */
+        gap: 14px; /* Added: keep even spacing between mobile links. */
+        padding: 18px; /* Added: create readable spacing inside the mobile menu. */
+        border-radius: 16px; /* Added: match the shared mobile menu rounding. */
+        display: none; /* Added: hide the mobile menu until toggled. */
+        box-shadow: 0 10px 24px rgba(22, 22, 68, 0.18); /* Added: keep the shared dropdown shadow. */
+    }
+
+    .nav-links.active { /* Added: reveal the mobile menu when toggled. */
+        display: flex; /* Added: show the mobile dropdown links. */
+    }
+
+    .request-top { /* Added: stack the broker heading and status on smaller screens. */
+        flex-direction: column; /* Added: keep the broker card header readable on mobile. */
+    }
+
+    .footer-grid { /* Added: keep the broker page footer responsive on smaller screens. */
+        grid-template-columns: 1fr; /* Added: stack the footer columns vertically on mobile. */
+    }
+}

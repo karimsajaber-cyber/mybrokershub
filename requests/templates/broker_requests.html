@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Broker Requests</title>
+    <link rel="stylesheet" href="{% static 'css/broker_requests.css' %}"> <!-- Added: load the broker request list page styles. -->
+</head>
+
+<body>
+    {% include 'partials/navbar.html' %}
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Broker Requests</h1>
+            <p>Review the customer requests assigned to your broker account.</p>
+        </div>
+    </section>
+
+    <section class="requests-section">
+        <div class="container">
+            {% if notice_message %} <!-- Added: show broker action notices after updates. -->
+            <div class="notice-box">{{ notice_message }}</div> <!-- Added: render the broker request notice message. -->
+            {% endif %} <!-- Added: finish the broker notice block. -->
+
+            {% if assigned_requests %}
+            <div class="requests-grid">
+                {% for request_item in assigned_requests %}
+                <div class="request-card"> <!-- Added: show each assigned request in one broker summary card. -->
+                    <div class="request-top">
+                        <div>
+                            <h2>{{ request_item.product_name }}</h2>
+                            <p class="request-customer">Customer: {{ request_item.customer.username }}</p> <!-- Added: show which customer submitted the request. -->
+                        </div>
+                        <span class="request-status">{{ request_item.status|title }}</span>
+                    </div>
+
+                    <p class="request-notes">
+                        {% if request_item.notes %}
+                            {{ request_item.notes|truncatechars:150 }}
+                        {% else %}
+                            No description was added for this request.
+                        {% endif %}
+                    </p>
+
+                    <div class="request-meta">
+                        <span>Platform: {{ request_item.platform.name }}</span>
+                        <span>Phone: {{ request_item.customer.phone }}</span> <!-- Added: show the customer phone in the broker summary card. -->
+                        <span>City: {% if request_item.city %}{{ request_item.city.name }}{% else %}Not specified{% endif %}</span>
+                        <span>Created: {{ request_item.created_at|date:"M d, Y" }}</span>
+                    </div>
+
+                    <div class="request-actions">
+                        <a href="{% url 'broker_request_details' request_item.id %}" class="details-link">View Details</a> <!-- Added: let the broker open only this assigned request details page. -->
+                    </div>
+                </div> <!-- Added: finish the broker summary card. -->
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <h2>No Assigned Requests</h2>
+                <p>No customer requests have been assigned to your broker account yet.</p>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div>
+                <a href="{% url 'landing' %}" class="brand footer-brand">BrokersHub</a>
+                <p class="footer-text">
+                    Connecting customers with trusted brokers for smarter and faster transactions.
+                </p>
+            </div>
+
+            <div>
+                <h3>Quick Links</h3>
+                <a href="{% url 'landing' %}" class="footer-link">Home</a>
+                <a href="{% url 'browse_brokers' %}" class="footer-link">Browse Brokers</a>
+                <a href="{% url 'about' %}" class="footer-link">About Us</a>
+            </div>
+
+            <div>
+                <h3>Contact Info</h3>
+                <p class="footer-text">Email: info@brokershub.com</p>
+                <p class="footer-text">Phone: +1 (555) 123-4567</p>
+                <p class="footer-text">Support: Mon - Fri, 9AM - 6PM</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 BrokersHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    {% include 'partials/navbar_script.html' %}
+</body>
+
+</html>

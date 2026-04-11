@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Details</title>
+    <link rel="stylesheet" href="{% static 'css/broker_request_details.css' %}"> <!-- Added: load the broker request details page styles. -->
+</head>
+
+<body>
+    {% include 'partials/navbar.html' %}
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Request Details</h1>
+            <p>Review the assigned customer request and decide whether to accept or reject it.</p>
+        </div>
+    </section>
+
+    <section class="details-section">
+        <div class="container details-wrap">
+            {% if notice_message %} <!-- Added: show broker action notices on the details page. -->
+            <div class="notice-box">{{ notice_message }}</div> <!-- Added: render the broker details notice message. -->
+            {% endif %} <!-- Added: finish the broker details notice block. -->
+
+            <div class="details-card"> <!-- Added: keep the broker request information in one styled details card. -->
+                <div class="details-top">
+                    <div>
+                        <span class="details-tag">Assigned Request</span> <!-- Added: label the broker details card clearly. -->
+                        <h2>{{ request_item.product_name }}</h2>
+                    </div>
+                    <span class="request-status">{{ request_item.status|title }}</span>
+                </div>
+
+                <div class="details-grid">
+                    <div class="details-block">
+                        <h3>Customer Information</h3>
+                        <p><strong>Username:</strong> {{ request_item.customer.username }}</p>
+                        <p><strong>Email:</strong> {{ request_item.customer.email }}</p>
+                        <p><strong>Phone:</strong> {{ request_item.customer.phone }}</p>
+                    </div>
+
+                    <div class="details-block">
+                        <h3>Request Information</h3>
+                        <p><strong>Platform:</strong> {{ request_item.platform.name }}</p>
+                        <p><strong>City:</strong> {% if request_item.city %}{{ request_item.city.name }}{% else %}Not specified{% endif %}</p>
+                        <p><strong>Created:</strong> {{ request_item.created_at|date:"M d, Y" }}</p>
+                    </div>
+                </div>
+
+                <div class="details-block notes-block">
+                    <h3>Customer Description</h3>
+                    <p class="request-notes">
+                        {% if request_item.notes %}
+                            {{ request_item.notes }}
+                        {% else %}
+                            No description was added for this request.
+                        {% endif %}
+                    </p>
+                </div>
+
+                {% if request_item.status|lower == 'accepted' and request_item.broker %} <!-- Added: remind the broker that customer contact access is now enabled. -->
+                <div class="success-box">
+                    <p>Your WhatsApp number is now visible to the customer on their My Requests page.</p> <!-- Added: explain the accepted-contact result clearly to the broker. -->
+                </div>
+                {% endif %} <!-- Added: finish the accepted broker reminder block. -->
+
+                {% if request_item.status|lower == 'pending' %} <!-- Added: show broker actions only while the request is still pending. -->
+                <div class="details-actions">
+                    <form action="{% url 'broker_request_details' request_item.id %}" method="POST"> <!-- Added: submit the accept action safely with POST. -->
+                        {% csrf_token %} <!-- Added: protect the accept form against CSRF. -->
+                        <input type="hidden" name="action_type" value="accept"> <!-- Added: tell the view this broker action is acceptance. -->
+                        <button type="submit" class="accept-btn">Accept Request</button> <!-- Added: let the broker accept the assigned request. -->
+                    </form>
+
+                    <form action="{% url 'broker_request_details' request_item.id %}" method="POST"> <!-- Added: submit the reject action safely with POST. -->
+                        {% csrf_token %} <!-- Added: protect the reject form against CSRF. -->
+                        <input type="hidden" name="action_type" value="reject"> <!-- Added: tell the view this broker action is rejection. -->
+                        <button type="submit" class="reject-btn">Reject Request</button> <!-- Added: let the broker reject the assigned request. -->
+                    </form>
+                </div>
+                {% endif %} <!-- Added: finish the pending-only broker action block. -->
+
+                <div class="back-row">
+                    <a href="{% url 'broker_requests' %}" class="back-link">Back to Broker Requests</a> <!-- Added: let the broker return to their assigned requests list. -->
+                </div>
+            </div> <!-- Added: finish the broker request details card. -->
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div>
+                <a href="{% url 'landing' %}" class="brand footer-brand">BrokersHub</a>
+                <p class="footer-text">
+                    Connecting customers with trusted brokers for smarter and faster transactions.
+                </p>
+            </div>
+
+            <div>
+                <h3>Quick Links</h3>
+                <a href="{% url 'landing' %}" class="footer-link">Home</a>
+                <a href="{% url 'browse_brokers' %}" class="footer-link">Browse Brokers</a>
+                <a href="{% url 'about' %}" class="footer-link">About Us</a>
+            </div>
+
+            <div>
+                <h3>Contact Info</h3>
+                <p class="footer-text">Email: info@brokershub.com</p>
+                <p class="footer-text">Phone: +1 (555) 123-4567</p>
+                <p class="footer-text">Support: Mon - Fri, 9AM - 6PM</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 BrokersHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    {% include 'partials/navbar_script.html' %}
+</body>
+
+</html>

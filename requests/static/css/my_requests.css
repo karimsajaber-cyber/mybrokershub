@@ -1,0 +1,488 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --muted: #62708f;
+    --primary: #5b48f2;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f5f7fb;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+}
+
+.container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.navbar {
+    background:
+        radial-gradient(circle at top left, rgba(116, 150, 255, 0.28), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.16), transparent 28%),
+        linear-gradient(135deg, #3f65ff 0%, #5b48f2 48%, #7f35db 100%);
+    color: #ffffff;
+    padding: 20px 0;
+    border-bottom: 1px solid #fdf5f5;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+}
+
+.logo {
+    color: #dbd6e1;
+    font-weight: bold;
+    transition: 0.3s;
+    display: inline-block;
+}
+
+.logo:hover {
+    transform: scale(1.1);
+    color: #4f46e5;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    color: #ffffff;
+}
+
+.nav-link,
+a {
+    color: white;
+}
+
+.nav-link {
+    font-weight: 500;
+    position: relative;
+}
+
+.menu-toggle {
+    display: none;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.nav-links a::after {
+    content: "";
+    width: 0%;
+    height: 2px;
+    background: #e6d2f7;
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    transition: 0.3s;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.nav-links a:hover {
+    color: #e6d2f7;
+}
+
+.page-header {
+    padding: 36px 0 10px;
+}
+
+.page-header h1 {
+    color: #3b3b6d;
+    margin-bottom: 8px;
+    font-size: 2.1rem;
+}
+
+.page-header p {
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.requests-section {
+    padding: 18px 0 50px;
+}
+
+.notice-box {
+    /* Added: style success and restriction notices on the requests page. */
+    margin-bottom: 20px;
+    /* Added: separate the notice from the request grid. */
+    padding: 14px 18px;
+    /* Added: create readable spacing inside the notice box. */
+    border-radius: 12px;
+    /* Added: match the rounded card style used in the project. */
+    background: #eef2ff;
+    /* Added: use a light accent background for notices. */
+    color: #4338ca;
+    /* Added: use a readable accent color for notice text. */
+    font-weight: 700;
+    /* Added: make the notice easy to spot. */
+}
+
+.requests-grid {
+    /* Changed: keep the requests in one clean vertical flow. */
+    display: flex;
+    /* Changed: keep using flex for the requests list. */
+    /* Changed: stack request cards vertically for a steadier reading flow. */
+    align-items: center;
+    justify-content:center;
+    /* Added: keep each request card centered inside the page container. */
+    /* Changed: keep consistent spacing between request cards. */
+}
+
+.request-item {
+    /* Added: wrap the two cards that belong to one request. */
+    width: 100%;
+    /* Changed: let the request item use the page width without forcing both inner cards to stretch. */
+    max-width: 560px;
+    /* Changed: keep the overall request block compact on desktop. */
+    display: flex;
+    /* Added: let the card sections stack cleanly. */
+    flex-direction: column;
+    /* Added: split the card into upper and lower content sections. */
+    align-items: flex-start;
+    /* Added: stop the inner cards from stretching to the full wrapper width. */
+    gap: 14px;
+    /* Added: keep a clean gap between the title card and the info card. */
+}
+
+.request-card { /* Added: create one shared outer card around both request sections. */
+    max-width: 330px;
+    max-height: 400px;
+    width: 100%; /* Added: let the outer card match the existing request item width. */
+    background: white; /* Added: move the card background to the shared wrapper. */
+    border-radius: 18px; /* Added: keep the same rounded card look on the shared wrapper. */
+    padding: 24px; /* Added: move the main outer spacing to the shared wrapper. */
+    box-shadow: 0 12px 28px rgba(71, 85, 143, 0.1); /* Added: move the card shadow to the shared wrapper. */
+    display: flex; /* Added: stack the inner sections inside the shared card. */
+    flex-direction: column; /* Added: keep the main section above the info section. */
+    gap: 14px; /* Added: preserve the existing gap between the two inner sections. */
+} /* Added: finish the shared outer request card styles. */
+
+.request-main-card,
+.request-info-card {
+    /* Changed: let the inner sections keep their layout without looking like separate outer cards. */
+    background: transparent; /* Changed: remove the extra inner card background. */
+    border-radius: 0; /* Changed: remove the extra inner card rounding. */
+    padding: 0; /* Changed: let the shared outer card control the main padding. */
+    box-shadow: none; /* Changed: remove the extra inner card shadow. */
+}
+
+.request-main-card {
+    /* Added: size the title and description card to its own content. */
+    max-width: 450px;
+    /* Added: keep the upper card compact and stable. */
+}
+
+/* Added: finish the upper request card sizing. */
+
+.request-info-card {
+    /* Added: size the lower info card to its own content. */
+    width: fit-content;
+    /* Added: prevent the lower card from leaving empty space on the right. */
+    max-width: 100%;
+    /* Added: keep the lower card inside the request wrapper width. */
+    min-width: 300px;
+    /* Added: keep the lower card wide enough for its metadata and actions. */
+    display: flex;
+    /* Added: keep the lower request card content in a clean vertical flow. */
+    flex-direction: column;
+    /* Added: stack metadata above the actions. */
+    gap: 18px;
+    /* Added: create clean spacing between metadata and action buttons. */
+    align-items: center;
+}
+
+/* Added: finish the lower request card sizing. */
+
+.empty-state {
+    /* Changed: keep the empty state card styling separate from request cards. */
+    background: white;
+    /* Changed: keep the existing empty state background. */
+    border-radius: 18px;
+    /* Changed: keep the current empty state rounding. */
+    padding: 24px;
+    /* Changed: keep the current empty state padding. */
+    box-shadow: 0 12px 28px rgba(71, 85, 143, 0.1);
+    /* Changed: keep the current empty state shadow. */
+}
+
+.request-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 14px;
+    /* Changed: keep a direct gap between title row and description text. */
+}
+
+.request-top h2 {
+    /* Changed: allow long titles to wrap without breaking the layout. */
+    color: #2f2f5f;
+    /* Changed: keep the current title color. */
+    font-size: 1.2rem;
+    /* Changed: keep the current title size. */
+    overflow-wrap: anywhere;
+    /* Added: wrap long unbroken title text safely. */
+}
+
+.request-status {
+    background: #eef2ff;
+    color: var(--primary);
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+
+.request-notes {
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0;
+
+    max-height: calc(1.6em * 2);  /* 🔥 سطرين */
+     overflow-y: auto;            /* 🔥 scroll لتحت فقط */
+    overflow-x: hidden;             /* بدون scroll بالبداية */
+
+    word-break: break-word;
+    transition: all 0.3s ease;
+}
+
+.request-notes:hover {
+    max-height: 120px;          
+}
+
+.request-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: #4b5563;
+    font-size: 0.95rem;
+}
+
+.contact-box { /* Added: highlight the broker WhatsApp number after the request is accepted. */
+    display: flex; /* Added: stack the contact label and value vertically. */
+    flex-direction: column; /* Added: keep the contact content easy to read. */
+    gap: 6px; /* Added: create a small gap between the contact label and number. */
+    padding: 12px 14px; /* Added: create a readable accepted-contact box. */
+    border-radius: 12px; /* Added: match the rounded request design language. */
+    background: #eefbf2; /* Added: use a calm success background for accepted contact details. */
+    border: 1px solid #bbf7d0; /* Added: define the accepted-contact box softly. */
+} /* Added: finish the accepted contact box styles. */
+
+.contact-label { /* Added: style the accepted broker contact label. */
+    color: #166534; /* Added: use a readable success tone for the label. */
+    font-weight: 700; /* Added: make the contact label stand out. */
+} /* Added: finish the contact label styles. */
+
+.contact-value { /* Added: style the accepted broker WhatsApp number. */
+    color: #14532d; /* Added: keep the broker contact readable on the success background. */
+    font-weight: 600; /* Added: make the WhatsApp number easy to notice. */
+} /* Added: finish the contact value styles. */
+
+.request-actions {
+    /* Added: hold the edit and delete controls for pending requests. */
+    margin-top: 0;
+    /* Changed: let the lower section wrapper manage vertical spacing. */
+    display: flex;
+    /* Added: align the pending request actions in one row. */
+    gap: 12px;
+    /* Added: separate the edit and delete actions. */
+    align-items: center;
+    /* Added: align action controls vertically. */
+    flex-wrap: wrap;
+    /* Added: keep the actions tidy on smaller widths. */
+}
+
+.edit-link {
+    /* Added: style the request edit link as a button. */
+    display: inline-flex;
+    /* Added: align the edit label like a button. */
+    align-items: center;
+    /* Added: center the edit label vertically. */
+    justify-content: center;
+    /* Added: center the edit label horizontally. */
+    min-height: 42px;
+    /* Added: give the edit action a comfortable height. */
+    padding: 0 18px;
+    /* Added: add horizontal space inside the edit action. */
+    border-radius: 12px;
+    /* Added: match the rounded action style used in the project. */
+    background: #eef2ff;
+    /* Added: use a light accent background for the edit action. */
+    color: var(--primary);
+    /* Added: use the project accent color for the edit label. */
+    font-weight: 700;
+    /* Added: make the edit action easy to notice. */
+}
+
+.delete-form {
+    /* Added: keep the delete action form inline with the edit action. */
+    margin: 0;
+    /* Added: remove the browser default form margin. */
+}
+
+.delete-btn {
+    /* Added: style the request delete button. */
+    min-height: 42px;
+    /* Added: give the delete action a comfortable height. */
+    padding: 0 18px;
+    /* Added: add horizontal space inside the delete action. */
+    border: none;
+    /* Added: remove the default button border. */
+    border-radius: 12px;
+    /* Added: match the rounded action style used in the project. */
+    background: #fee2e2;
+    /* Added: use a light danger background for the delete action. */
+    color: #b91c1c;
+    /* Added: use a readable danger color for the delete label. */
+    font-weight: 700;
+    /* Added: make the delete action easy to notice. */
+    cursor: pointer;
+    /* Added: show that the delete action is clickable. */
+}
+
+.empty-state {
+    max-width: 620px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.empty-state h2 {
+    color: #2f2f5f;
+    margin-bottom: 10px;
+}
+
+.empty-state p {
+    color: var(--muted);
+    margin-bottom: 18px;
+}
+
+.create-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 0 22px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #5b48f2, #7f35db);
+    color: white;
+    font-weight: 700;
+}
+
+.footer {
+    padding-top: 34px;
+    background: #f5f7fb;
+    border-top: 1px solid rgba(223, 228, 242, 0.85);
+}
+
+.footer-grid {
+    display: grid;
+    gap: 36px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+.footer h3 {
+    margin: 0 0 14px;
+    font-size: 1.05rem;
+    color: #333;
+}
+
+.footer-brand {
+    display: inline-block;
+    margin-bottom: 14px;
+    color: #333;
+}
+
+.footer-text,
+.footer-link {
+    display: block;
+    margin: 0 0 10px;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.footer-link:hover {
+    color: var(--primary);
+}
+
+.footer-bottom {
+    margin-top: 32px;
+    padding: 18px 16px 24px;
+    text-align: center;
+    color: var(--muted);
+    border-top: 1px solid rgba(223, 228, 242, 0.85);
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+        color: #ffffff;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: calc(100% + 10px);
+        left: 0;
+        right: 0;
+        background: rgba(56, 39, 200, 0.96);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 18px;
+        border-radius: 16px;
+        display: none;
+        box-shadow: 0 10px 24px rgba(22, 22, 68, 0.18);
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .footer-grid {
+        /* Changed: keep the footer responsive on smaller screens. */
+        grid-template-columns: 1fr;
+        /* Changed: stack the footer columns vertically on mobile. */
+    }
+
+    .request-main-card,
+    .request-info-card {
+        /* Changed: soften both request cards slightly on smaller screens. */
+        width: 100%;
+        /* Changed: let both cards fill the mobile width for a stable small-screen layout. */
+        min-width: 0;
+        /* Added: remove the desktop minimum width on smaller screens. */
+        padding: 0; /* Changed: keep the inner sections flush because the outer card now owns the padding. */
+    }
+
+    .request-card { /* Added: reduce the shared outer card padding on smaller screens. */
+        padding: 20px; /* Added: keep the same responsive outer spacing after wrapping both sections. */
+    } /* Added: finish the mobile shared outer card styles. */
+
+    .request-top {
+        /* Changed: stack the title and status on smaller screens. */
+        flex-direction: column;
+        /* Changed: keep the card header readable on mobile. */
+    }
+}

@@ -38,7 +38,7 @@
             </div>
 
             <div class="hero-right">
-                <a href="{% url 'create_request' %}" class="btn btn-primary">Contact Broker</a>
+                <a href="{% url 'create_request' %}?broker_id={{ broker.id }}" class="btn btn-primary">Contact Broker</a> <!-- Changed: preserve the selected broker in the request flow. -->
             </div>
         </div>
     </section>

@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Requests</title>
+    <link rel="stylesheet" href="{% static 'css/my_requests.css' %}">
+</head>
+
+<body>
+    {% include 'partials/navbar.html' %}
+
+    <section class="page-header">
+        <div class="container">
+            <h1>My Requests</h1>
+            <p>Track the requests you submitted and check their current status.</p>
+        </div>
+    </section>
+
+    <section class="requests-section">
+        <div class="container">
+            {% if notice_message %} <!-- Added: show success or restriction notices after request actions. -->
+            <div class="notice-box">{{ notice_message }}</div> <!-- Added: render the requests page notice message. -->
+            {% endif %} <!-- Added: finish the notice message block. -->
+
+            {% if customer_requests %}
+            <div class="requests-grid">
+                {% for request_item in customer_requests %}
+                <div class="request-item"> <!-- Changed: wrap each request in a two-card layout. -->
+                    <div class="request-card"> <!-- Added: wrap the main and info sections inside one shared outer card. -->
+                        <div class="request-main-card"> <!-- Added: keep the title and description in their own compact card. -->
+                            <div class="request-top">
+                                <h2>{{ request_item.product_name }}</h2>
+                                <span class="request-status">{{ request_item.status|title }}</span>
+                            </div>
+
+                            <p class="request-notes"> <!-- Changed: keep the description simple and let it break into normal lines. -->
+                                {% if request_item.notes %}
+                                    {{ request_item.notes }}
+                                {% else %}
+                                    No description was added for this request.
+                                {% endif %}
+                            </p> <!-- Added: finish the request description block. -->
+                        </div> <!-- Added: finish the compact title and description card. -->
+
+                    <div class="request-info-card"> <!-- Changed: move the request details and actions into a second clean card. -->
+                        <div class="request-meta">
+                            <span>Platform: {{ request_item.platform.name }}</span>
+                            <span>Broker: {% if request_item.broker %}{{ request_item.broker.business_name }}{% else %}Not assigned{% endif %}</span> <!-- Added: show the broker assigned to this request when present. -->
+
+                                {% if request_item.city %}
+                                <span>City: {{ request_item.city.name }}</span>
+                                {% else %}
+                                <span>City: Not specified</span>
+                                {% endif %}
+
+                            <span>Created: {{ request_item.created_at|date:"M d, Y" }}</span>
+                        </div>
+
+                        {% if request_item.status|lower == 'accepted' and request_item.broker and request_item.broker.show_whatsapp_after_accept %} <!-- Added: show broker contact only after the assigned broker accepts the request. -->
+                        <div class="contact-box"> <!-- Added: highlight the broker WhatsApp contact for the customer after acceptance. -->
+                            <span class="contact-label">Broker WhatsApp:</span> <!-- Added: label the revealed broker contact field clearly. -->
+                            <span class="contact-value">{{ request_item.broker.whatsapp_number }}</span> <!-- Added: show the broker WhatsApp number only when acceptance allows it. -->
+                        </div> <!-- Added: finish the accepted broker contact box. -->
+                        {% endif %} <!-- Added: finish the accepted-contact visibility block. -->
+
+                        {% if request_item.status|lower == 'pending' %} <!-- Changed: expose edit and delete only for pending requests even if old data casing differs. -->
+                        <div class="request-actions"> <!-- Added: hold the pending request action buttons. -->
+                                <a href="{% url 'edit_request' request_item.id %}" class="edit-link">Edit</a> <!-- Added: let the customer edit a pending request. -->
+                                <form action="{% url 'delete_request' request_item.id %}" method="POST" class="delete-form"> <!-- Added: submit deletion through a protected POST form. -->
+                                    {% csrf_token %} <!-- Added: protect the delete form against CSRF. -->
+                                    <button type="submit" class="delete-btn">Delete</button> <!-- Added: let the customer delete a pending request. -->
+                                </form> <!-- Added: close the delete form. -->
+                            </div> <!-- Added: close the request actions wrapper. -->
+                            {% endif %} <!-- Added: finish the pending-only actions block. -->
+                        </div> <!-- Added: finish the lower request details card. -->
+                    </div> <!-- Added: finish the shared outer request card. -->
+                </div> <!-- Added: finish the full two-card request item. -->
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <h2>No Requests Yet</h2>
+                <p>You have not submitted any requests yet. Choose a broker first to create your request.</p> <!-- Changed: clarify that requests start from a broker profile. -->
+                <a href="{% url 'browse_brokers' %}" class="create-link">Browse Brokers</a> <!-- Changed: send the customer into the broker-first request flow. -->
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div>
+                <a href="{% url 'landing' %}" class="brand footer-brand">BrokersHub</a>
+                <p class="footer-text">
+                    Connecting customers with trusted brokers for smarter and faster transactions.
+                </p>
+            </div>
+
+            <div>
+                <h3>Quick Links</h3>
+                <a href="{% url 'landing' %}" class="footer-link">Home</a>
+                <a href="{% url 'browse_brokers' %}" class="footer-link">Browse Brokers</a>
+                <a href="{% url 'about' %}" class="footer-link">About Us</a>
+            </div>
+
+            <div>
+                <h3>Contact Info</h3>
+                <p class="footer-text">Email: info@brokershub.com</p>
+                <p class="footer-text">Phone: +1 (555) 123-4567</p>
+                <p class="footer-text">Support: Mon - Fri, 9AM - 6PM</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 BrokersHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    {% include 'partials/navbar_script.html' %}
+</body>
+
+</html>
