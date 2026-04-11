@@ -136,51 +136,66 @@ a {
 
 .requests-grid {
     /* Changed: keep the requests in one clean vertical flow. */
-    display: flex;
-    /* Changed: keep using flex for the requests list. */
-    /* Changed: stack request cards vertically for a steadier reading flow. */
-    align-items: center;
-    justify-content:center;
-    /* Added: keep each request card centered inside the page container. */
+    display: grid;
+    /* Changed: use a responsive grid so multiple request cards can sit on the same row. */
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    /* Added: keep exactly three request cards per row on computer screens. */
+    gap: 20px;
     /* Changed: keep consistent spacing between request cards. */
+    align-items: start;
+    /* Added: align request cards from the top of each grid cell. */
 }
 
 .request-item {
     /* Added: wrap the two cards that belong to one request. */
     width: 100%;
-    /* Changed: let the request item use the page width without forcing both inner cards to stretch. */
-    max-width: 560px;
-    /* Changed: keep the overall request block compact on desktop. */
+    max-width: none;
+    /* Changed: let each request item fill its grid column instead of keeping a fixed outer width. */
     display: flex;
     /* Added: let the card sections stack cleanly. */
     flex-direction: column;
     /* Added: split the card into upper and lower content sections. */
-    align-items: flex-start;
-    /* Added: stop the inner cards from stretching to the full wrapper width. */
+    align-items: stretch;
+    /* Changed: let the shared outer card fill the full grid cell width. */
     gap: 14px;
     /* Added: keep a clean gap between the title card and the info card. */
 }
 
-.request-card { /* Added: create one shared outer card around both request sections. */
-    max-width: 330px;
-    max-height: 400px;
-    width: 100%; /* Added: let the outer card match the existing request item width. */
-    background: white; /* Added: move the card background to the shared wrapper. */
-    border-radius: 18px; /* Added: keep the same rounded card look on the shared wrapper. */
-    padding: 24px; /* Added: move the main outer spacing to the shared wrapper. */
-    box-shadow: 0 12px 28px rgba(71, 85, 143, 0.1); /* Added: move the card shadow to the shared wrapper. */
-    display: flex; /* Added: stack the inner sections inside the shared card. */
-    flex-direction: column; /* Added: keep the main section above the info section. */
-    gap: 14px; /* Added: preserve the existing gap between the two inner sections. */
-} /* Added: finish the shared outer request card styles. */
+.request-card {
+    /* Added: create one shared outer card around both request sections. */
+    max-width: none;
+    /* Changed: let the outer request card use the full available grid column width. */
+    width: 100%;
+    /* Added: let the outer card match the current grid cell width. */
+    background: white;
+    /* Added: move the card background to the shared wrapper. */
+    border-radius: 18px;
+    /* Added: keep the same rounded card look on the shared wrapper. */
+    padding: 24px;
+    /* Added: move the main outer spacing to the shared wrapper. */
+    box-shadow: 0 12px 28px rgba(71, 85, 143, 0.1);
+    /* Added: move the card shadow to the shared wrapper. */
+    display: flex;
+    /* Added: stack the inner sections inside the shared card. */
+    flex-direction: column;
+    /* Added: keep the main section above the info section. */
+    gap: 14px;
+    /* Added: preserve the existing gap between the two inner sections. */
+}
+
+/* Added: finish the shared outer request card styles. */
 
 .request-main-card,
 .request-info-card {
     /* Changed: let the inner sections keep their layout without looking like separate outer cards. */
-    background: transparent; /* Changed: remove the extra inner card background. */
-    border-radius: 0; /* Changed: remove the extra inner card rounding. */
-    padding: 0; /* Changed: let the shared outer card control the main padding. */
-    box-shadow: none; /* Changed: remove the extra inner card shadow. */
+    background: transparent;
+    /* Changed: remove the extra inner card background. */
+    border-radius: 0;
+    /* Changed: remove the extra inner card rounding. */
+    padding: 0;
+    /* Changed: let the shared outer card control the main padding. */
+    box-shadow: none;
+    /* Changed: remove the extra inner card shadow. */
 }
 
 .request-main-card {
@@ -233,12 +248,11 @@ a {
 
 .request-top h2 {
     /* Changed: allow long titles to wrap without breaking the layout. */
-    color: #2f2f5f;
+    color: #7f35db;
     /* Changed: keep the current title color. */
     font-size: 1.2rem;
     /* Changed: keep the current title size. */
-    overflow-wrap: anywhere;
-    /* Added: wrap long unbroken title text safely. */
+    margin: auto;
 }
 
 .request-status {
@@ -254,19 +268,18 @@ a {
 
 .request-notes {
     color: var(--muted);
+    padding : 0 0 0 6px;
     line-height: 1.6;
     margin: 0;
-
-    max-height: calc(1.6em * 2);  /* 🔥 سطرين */
-     overflow-y: auto;            /* 🔥 scroll لتحت فقط */
-    overflow-x: hidden;             /* بدون scroll بالبداية */
-
+    max-height: calc(1.6em * 2);
+    overflow-y: auto;
+    overflow-x: hidden;
     word-break: break-word;
     transition: all 0.3s ease;
 }
 
 .request-notes:hover {
-    max-height: 120px;          
+    max-height: 120px;
 }
 
 .request-meta {
@@ -277,33 +290,54 @@ a {
     font-size: 0.95rem;
 }
 
-.contact-box { /* Added: highlight the broker WhatsApp number after the request is accepted. */
-    display: flex; /* Added: stack the contact label and value vertically. */
-    flex-direction: column; /* Added: keep the contact content easy to read. */
-    gap: 6px; /* Added: create a small gap between the contact label and number. */
-    padding: 12px 14px; /* Added: create a readable accepted-contact box. */
-    border-radius: 12px; /* Added: match the rounded request design language. */
-    background: #eefbf2; /* Added: use a calm success background for accepted contact details. */
-    border: 1px solid #bbf7d0; /* Added: define the accepted-contact box softly. */
-} /* Added: finish the accepted contact box styles. */
+.contact-box {
+    /* Added: highlight the broker WhatsApp number after the request is accepted. */
+    display: flex;
+    /* Added: stack the contact label and value vertically. */
+    flex-direction: column;
+    align-items:center;
+    /* Added: keep the contact content easy to read. */
+    gap: 6px;
+    /* Added: create a small gap between the contact label and number. */
+    padding: 12px 20px;
+    /* Added: create a readable accepted-contact box. */
+    border-radius: 12px;
+    /* Added: match the rounded request design language. */
+    background: #eefbf2;
+    /* Added: use a calm success background for accepted contact details. */
+    border: 1px solid #bbf7d0;
+    /* Added: define the accepted-contact box softly. */
+}
 
-.contact-label { /* Added: style the accepted broker contact label. */
-    color: #166534; /* Added: use a readable success tone for the label. */
-    font-weight: 700; /* Added: make the contact label stand out. */
-} /* Added: finish the contact label styles. */
+/* Added: finish the accepted contact box styles. */
 
-.contact-value { /* Added: style the accepted broker WhatsApp number. */
-    color: #14532d; /* Added: keep the broker contact readable on the success background. */
-    font-weight: 600; /* Added: make the WhatsApp number easy to notice. */
-} /* Added: finish the contact value styles. */
+.contact-label {
+    /* Added: style the accepted broker contact label. */
+    color: #166534;
+    /* Added: use a readable success tone for the label. */
+    font-weight: 700;
+    /* Added: make the contact label stand out. */
+}
+
+/* Added: finish the contact label styles. */
+
+.contact-value {
+    /* Added: style the accepted broker WhatsApp number. */
+    color: #14532d;
+    /* Added: keep the broker contact readable on the success background. */
+    font-weight: 600;
+    /* Added: make the WhatsApp number easy to notice. */
+}
+
+/* Added: finish the contact value styles. */
 
 .request-actions {
     /* Added: hold the edit and delete controls for pending requests. */
     margin-top: 0;
     /* Changed: let the lower section wrapper manage vertical spacing. */
-    display: flex;
-    /* Added: align the pending request actions in one row. */
-    gap: 12px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
     /* Added: separate the edit and delete actions. */
     align-items: center;
     /* Added: align action controls vertically. */
@@ -466,6 +500,12 @@ a {
         /* Changed: stack the footer columns vertically on mobile. */
     }
 
+    .requests-grid {
+        /* Added: keep one request card per row on mobile screens. */
+        grid-template-columns: 1fr;
+        /* Added: stack request cards in one column on small screens. */
+    }
+
     .request-main-card,
     .request-info-card {
         /* Changed: soften both request cards slightly on smaller screens. */
@@ -473,12 +513,19 @@ a {
         /* Changed: let both cards fill the mobile width for a stable small-screen layout. */
         min-width: 0;
         /* Added: remove the desktop minimum width on smaller screens. */
-        padding: 0; /* Changed: keep the inner sections flush because the outer card now owns the padding. */
+        padding: 0;
+        /* Changed: keep the inner sections flush because the outer card now owns the padding. */
     }
 
-    .request-card { /* Added: reduce the shared outer card padding on smaller screens. */
-        padding: 20px; /* Added: keep the same responsive outer spacing after wrapping both sections. */
-    } /* Added: finish the mobile shared outer card styles. */
+    .request-card {
+        /* Added: reduce the shared outer card padding on smaller screens. */
+        padding: 15px;
+        max-width: 320px;
+        align-items: center;
+        /* Added: keep the same responsive outer spacing after wrapping both sections. */
+    }
+
+    /* Added: finish the mobile shared outer card styles. */
 
     .request-top {
         /* Changed: stack the title and status on smaller screens. */
@@ -486,3 +533,15 @@ a {
         /* Changed: keep the card header readable on mobile. */
     }
 }
+
+@media (min-width: 769px) and (max-width: 1024px) {
+
+    /* Added: keep the request page comfortable on tablet screens. */
+    .requests-grid {
+        /* Added: use two request cards per row on tablet widths. */
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        /* Added: keep the layout balanced on tablets. */
+    }
+}
+
+/* Added: finish the tablet request grid styles. */
