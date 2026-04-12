@@ -137,3 +137,11 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 AUTH_USER_MODEL = 'accounts.User'
+
+GROQ_API_KEY    = settings.GROQ_API_KEY
+GROQ_API_URL    = settings.GROQ_API_URL
+GROQ_MODEL      = settings.GROQ_MODEL
+RAPIDAPI_KEY    = settings.RAPIDAPI_KEY
+AMAZON_API_HOST = settings.AMAZON_API_HOST
+SHEIN_API_HOST  = settings.SHEIN_API_HOST
+TEMU_API_HOST   = settings.TEMU_API_HOST
