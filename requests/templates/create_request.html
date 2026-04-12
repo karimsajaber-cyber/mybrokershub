@@ -53,10 +53,25 @@
                     <textarea name="notes" id="descInput"></textarea>
                 </div>
 
+                <div class="form-group">
+                    <label>Product URL <span style="font-weight:400;color:#62708f;font-size:12px;">(optional)</span></label>
+                    <input type="url" name="product_url" id="urlInput" placeholder="https://...">
+                </div>
+
                 <input type="hidden" name="category" id="categoryInput">
 
                 <button class="submit-btn">Submit Request</button>
             </form>
+<script>
+{% if prefill_name %}
+document.addEventListener('DOMContentLoaded', function() {
+    var nameField = document.querySelector('input[name="product_name"]');
+    var urlField = document.getElementById('urlInput');
+    if (nameField && !nameField.value) nameField.value = "{{ prefill_name }}";
+    if (urlField && !urlField.value) urlField.value = "{{ prefill_url }}";
+});
+{% endif %}
+</script>
         </div>
 
         <div class="form-feedback-wrap"> <!-- Changed: keep validation messages directly under the request form. -->
@@ -143,8 +158,7 @@
             }
         });
     </script>
-
-    {% include 'partials/navbar_script.html' %} <!-- Added: keep the shared navbar mobile toggle working on the create request page. -->
+ <!-- Added: keep the shared navbar mobile toggle working on the create request page. -->
 </body>
 
 </html>

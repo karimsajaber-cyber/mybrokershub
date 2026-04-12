@@ -1,44 +1,51 @@
-{% load static %} <!-- Added: enable static file loading for the edit request page. -->
-<!DOCTYPE html> <!-- Added: declare the document type. -->
-<html lang="en"> <!-- Added: start the edit request page document. -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
 
-<head> <!-- Added: start the metadata section. -->
-    <meta charset="UTF-8"> <!-- Added: define UTF-8 encoding. -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Added: enable responsive layout on mobile. -->
-    <link rel="stylesheet" href="{% static 'css/create_request.css' %}"> <!-- Added: reuse the current request form styles for editing. -->
-    <title>Edit Request</title> <!-- Added: set the browser tab title. -->
-</head> <!-- Added: close the metadata section. -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/create_request.css' %}">
+    <title>Edit Request</title>
+</head>
 
-<body> <!-- Added: start the page body. -->
-    <div class="page-container"> <!-- Added: wrap the edit request page content. -->
-        {% if error_message %} <!-- Added: show backend validation errors returned by the edit view. -->
-        <div class="feedback-box show error">{{ error_message }}</div> <!-- Added: render the backend error using the existing feedback style. -->
-        {% endif %} <!-- Added: finish the conditional error block. -->
+<body>
+    {% include 'partials/navbar.html' %}
 
-        {% if selected_broker %} <!-- Added: show the broker linked to the current request. -->
-        <div class="selected-broker-box"> <!-- Added: hold the selected broker summary. -->
-            <p class="selected-broker-text">You are editing a request for {{ selected_broker.business_name }}.</p> <!-- Added: confirm the broker linked to this request. -->
-        </div> <!-- Added: close the selected broker summary. -->
-        {% endif %} <!-- Added: finish the selected broker block. -->
+    <div class="page-container">
 
-        <div class="form-card"> <!-- Added: keep the same centered request form card. -->
-            <form action="{% url 'edit_request' request_item.id %}" method="POST"> <!-- Added: submit edits to the dedicated edit route. -->
-                {% csrf_token %} <!-- Added: protect the edit form against CSRF. -->
+        {% if selected_broker %}
+        <div class="selected-broker-box">
+            <p class="selected-broker-text">You are editing a request for {{ selected_broker.business_name }}.</p>
+        </div>
+        {% endif %}
 
-                <div class="form-group"> <!-- Added: wrap the title field. -->
-                    <label>Title</label> <!-- Added: label the request title field. -->
-                    <input type="text" name="product_name" value="{{ request_item.product_name }}"> <!-- Added: prefill the existing request title. -->
-                </div> <!-- Added: close the title field wrapper. -->
+        <div class="form-card">
+            <form action="{% url 'edit_request' request_item.id %}" method="POST">
+                {% csrf_token %}
 
-                <div class="form-group"> <!-- Added: wrap the description field. -->
-                    <label>Description</label> <!-- Added: label the request description field. -->
-                    <textarea name="notes">{{ request_item.notes }}</textarea> <!-- Added: prefill the existing request description. -->
-                </div> <!-- Added: close the description field wrapper. -->
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" name="product_name" value="{{ request_item.product_name }}">
+                </div>
 
-                <button type="submit" class="submit-btn">Update Request</button> <!-- Added: submit the edited request. -->
-            </form> <!-- Added: close the edit form. -->
-        </div> <!-- Added: close the form card. -->
-    </div> <!-- Added: close the page wrapper. -->
-</body> <!-- Added: close the page body. -->
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="notes">{{ request_item.notes }}</textarea>
+                </div>
 
-</html> <!-- Added: close the HTML document. -->
+                <button class="submit-btn">Update Request</button>
+            </form>
+        </div>
+
+        <div class="form-feedback-wrap">
+            {% if error_message %}
+            <div class="feedback-box show error">{{ error_message }}</div>
+            {% endif %}
+        </div>
+
+    </div>
+
+</body>
+
+</html>

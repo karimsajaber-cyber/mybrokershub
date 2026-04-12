@@ -301,3 +301,16 @@ a { /* Added: keep the shared navbar link color behavior. */
         grid-template-columns: 1fr; /* Added: stack the footer columns vertically on mobile. */
     }
 }
+
+.status-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 8px;
+}
+.status-badge.pending  { background: #fff8e1; color: #f59e0b; border: 1px solid #fcd34d; }
+.status-badge.accepted { background: #f0fdf4; color: #15b86a; border: 1px solid #6ee7b7; }
+.status-badge.completed{ background: #ede9ff; color: #5b48f2; border: 1px solid #c4b5fd; }
+.status-badge.cancelled{ background: #fff0f0; color: #ef4444; border: 1px solid #fca5a5; }

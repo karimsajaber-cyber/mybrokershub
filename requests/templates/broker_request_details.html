@@ -12,7 +12,7 @@
 <body>
     {% include 'partials/navbar.html' %}
 
-    <section class="page-header">
+    <section class="page-header" style="width:100%;margin-top:20px;">
         <div class="container">
             <h1>Request Details</h1>
             <p>Review the assigned customer request and decide whether to accept or reject it.</p>
@@ -50,6 +50,12 @@
                     </div>
                 </div>
 
+                {% if request_item.product_url %}
+                <div class="details-block">
+                    <h3>Product URL</h3>
+                    <a href="{{ request_item.product_url }}" target="_blank" style="color:#5b48f2;font-weight:600;font-size:14px;word-break:break-all;">{{ request_item.product_url }}</a>
+                </div>
+                {% endif %}
                 <div class="details-block notes-block">
                     <h3>Customer Description</h3>
                     <p class="request-notes">
@@ -61,26 +67,44 @@
                     </p>
                 </div>
 
-                {% if request_item.status|lower == 'accepted' and request_item.broker %} <!-- Added: remind the broker that customer contact access is now enabled. -->
+                {% if request_item.status|lower == 'accepted' and request_item.broker %}
                 <div class="success-box">
-                    <p>Your WhatsApp number is now visible to the customer on their My Requests page.</p> <!-- Added: explain the accepted-contact result clearly to the broker. -->
+                    <p>Your WhatsApp number is now visible to the customer on their My Requests page.</p>
                 </div>
-                {% endif %} <!-- Added: finish the accepted broker reminder block. -->
-
-                {% if request_item.status|lower == 'pending' %} <!-- Added: show broker actions only while the request is still pending. -->
-                <div class="details-actions">
-                    <form action="{% url 'broker_request_details' request_item.id %}" method="POST"> <!-- Added: submit the accept action safely with POST. -->
-                        {% csrf_token %} <!-- Added: protect the accept form against CSRF. -->
-                        <input type="hidden" name="action_type" value="accept"> <!-- Added: tell the view this broker action is acceptance. -->
-                        <button type="submit" class="accept-btn">Accept Request</button> <!-- Added: let the broker accept the assigned request. -->
-                    </form>
-
-                    <form action="{% url 'broker_request_details' request_item.id %}" method="POST"> <!-- Added: submit the reject action safely with POST. -->
-                        {% csrf_token %} <!-- Added: protect the reject form against CSRF. -->
-                        <input type="hidden" name="action_type" value="reject"> <!-- Added: tell the view this broker action is rejection. -->
-                        <button type="submit" class="reject-btn">Reject Request</button> <!-- Added: let the broker reject the assigned request. -->
+                <div style="margin-top:16px;text-align:right;">
+                    <form action="{% url 'broker_request_details' request_item.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="action_type" value="complete">
+                        <button type="submit" class="accept-btn" style="background:linear-gradient(135deg,#3f65ff,#5b48f2);">
+                            🏁 Mark as Completed
+                        </button>
                     </form>
                 </div>
+                {% endif %}
+
+                {% if request_item.status|lower == 'pending' or request_item.status|lower == 'quoted' %}
+                <form action="{% url 'broker_request_details' request_item.id %}" method="POST">
+                    {% csrf_token %}
+                    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px;">
+                        <div>
+                            <label style="display:block;font-size:13px;font-weight:600;color:#333;margin-bottom:6px;">Price (USD) *</label>
+                            <input type="number" name="price" min="1" step="0.01" placeholder="e.g. 150" required
+                                value="{% if broker_quote %}{{ broker_quote.total_price }}{% endif %}"
+                                style="width:180px;padding:10px 12px;border:1.5px solid #dfe4f2;border-radius:8px;font-size:14px;font-family:inherit;outline:none;">
+                        </div>
+                        <div>
+                            <label style="display:block;font-size:13px;font-weight:600;color:#333;margin-bottom:6px;">Delivery Days *</label>
+                            <input type="number" name="delivery_days" min="1" placeholder="e.g. 3" required
+                                value="{% if broker_quote %}{{ broker_quote.delivery_days }}{% endif %}"
+                                style="width:180px;padding:10px 12px;border:1.5px solid #dfe4f2;border-radius:8px;font-size:14px;font-family:inherit;outline:none;">
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:12px;align-items:center;">
+                        <input type="hidden" name="action_type" id="action_type" value="">
+                        <button type="submit" class="accept-btn" onclick="document.getElementById('action_type').value='accept'">Accept Request</button>
+                        <button type="submit" class="reject-btn" onclick="document.getElementById('action_type').value='reject'">Reject Request</button>
+                    </div>
+                </form>
                 {% endif %} <!-- Added: finish the pending-only broker action block. -->
 
                 <div class="back-row">
@@ -90,36 +114,9 @@
         </div>
     </section>
 
-    <footer class="footer">
-        <div class="container footer-grid">
-            <div>
-                <a href="{% url 'landing' %}" class="brand footer-brand">BrokersHub</a>
-                <p class="footer-text">
-                    Connecting customers with trusted brokers for smarter and faster transactions.
-                </p>
-            </div>
+    {% include 'partials/footer.html' %}
 
-            <div>
-                <h3>Quick Links</h3>
-                <a href="{% url 'landing' %}" class="footer-link">Home</a>
-                <a href="{% url 'browse_brokers' %}" class="footer-link">Browse Brokers</a>
-                <a href="{% url 'about' %}" class="footer-link">About Us</a>
-            </div>
-
-            <div>
-                <h3>Contact Info</h3>
-                <p class="footer-text">Email: info@brokershub.com</p>
-                <p class="footer-text">Phone: +1 (555) 123-4567</p>
-                <p class="footer-text">Support: Mon - Fri, 9AM - 6PM</p>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2026 BrokersHub. All rights reserved.</p>
-        </div>
-    </footer>
-
-    {% include 'partials/navbar_script.html' %}
+    
 </body>
 
 </html>
