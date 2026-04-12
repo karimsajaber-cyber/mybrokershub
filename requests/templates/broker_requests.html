@@ -12,7 +12,7 @@
 <body>
     {% include 'partials/navbar.html' %}
 
-    <section class="page-header">
+    <section class="page-header" style="width:100%;margin-top:20px;">
         <div class="container">
             <h1>Broker Requests</h1>
             <p>Review the customer requests assigned to your broker account.</p>
@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="request-actions">
-                        <a href="{% url 'broker_request_details' request_item.id %}" class="details-link">View Details</a> <!-- Added: let the broker open only this assigned request details page. -->
+                        <a href="{% url 'broker_request_details' request_item.id %}" class="details-link">View Details</a>
                     </div>
                 </div> <!-- Added: finish the broker summary card. -->
                 {% endfor %}
@@ -67,36 +67,8 @@
         </div>
     </section>
 
-    <footer class="footer">
-        <div class="container footer-grid">
-            <div>
-                <a href="{% url 'landing' %}" class="brand footer-brand">BrokersHub</a>
-                <p class="footer-text">
-                    Connecting customers with trusted brokers for smarter and faster transactions.
-                </p>
-            </div>
+    {% include 'partials/footer.html' %}
 
-            <div>
-                <h3>Quick Links</h3>
-                <a href="{% url 'landing' %}" class="footer-link">Home</a>
-                <a href="{% url 'browse_brokers' %}" class="footer-link">Browse Brokers</a>
-                <a href="{% url 'about' %}" class="footer-link">About Us</a>
-            </div>
-
-            <div>
-                <h3>Contact Info</h3>
-                <p class="footer-text">Email: info@brokershub.com</p>
-                <p class="footer-text">Phone: +1 (555) 123-4567</p>
-                <p class="footer-text">Support: Mon - Fri, 9AM - 6PM</p>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2026 BrokersHub. All rights reserved.</p>
-        </div>
-    </footer>
-
-    {% include 'partials/navbar_script.html' %}
 </body>
 
 </html>

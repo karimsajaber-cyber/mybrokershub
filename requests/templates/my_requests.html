@@ -12,7 +12,7 @@
 <body>
     {% include 'partials/navbar.html' %}
 
-    <section class="page-header">
+    <section class="page-header" style="width:100%;margin-top:20px;">
         <div class="container">
             <h1>My Requests</h1>
             <p>Track the requests you submitted and check their current status.</p>
@@ -59,12 +59,17 @@
                             <span>Created: {{ request_item.created_at|date:"M d, Y" }}</span>
                         </div>
 
-                        {% if request_item.status|lower == 'accepted' and request_item.broker and request_item.broker.show_whatsapp_after_accept %} <!-- Added: show broker contact only after the assigned broker accepts the request. -->
-                        <div class="contact-box"> <!-- Added: highlight the broker WhatsApp contact for the customer after acceptance. -->
-                            <span class="contact-label">Broker WhatsApp:</span> <!-- Added: label the revealed broker contact field clearly. -->
-                            <span class="contact-value">{{ request_item.broker.whatsapp_number }}</span> <!-- Added: show the broker WhatsApp number only when acceptance allows it. -->
-                        </div> <!-- Added: finish the accepted broker contact box. -->
-                        {% endif %} <!-- Added: finish the accepted-contact visibility block. -->
+                        {% if request_item.can_contact_broker %}
+                        <a href="https://wa.me/970{{ request_item.broker.whatsapp_number|slice:'1:' }}" target="_blank" class="whatsapp-btn">
+                            💬 Contact Broker on WhatsApp
+                        </a>
+                        {% endif %}
+
+                        {% if request_item.can_rate_broker and request_item.review_quote_id %}
+                        <a href="/review/{{ request_item.review_quote_id }}/" class="rate-btn">
+                            ⭐ Please Rate the Broker
+                        </a>
+                        {% endif %}
 
                         {% if request_item.status|lower == 'pending' %} <!-- Changed: expose edit and delete only for pending requests even if old data casing differs. -->
                         <div class="request-actions"> <!-- Added: hold the pending request action buttons. -->
@@ -90,36 +95,8 @@
         </div>
     </section>
 
-    <footer class="footer">
-        <div class="container footer-grid">
-            <div>
-                <a href="{% url 'landing' %}" class="brand footer-brand">BrokersHub</a>
-                <p class="footer-text">
-                    Connecting customers with trusted brokers for smarter and faster transactions.
-                </p>
-            </div>
+    {% include 'partials/footer.html' %}
 
-            <div>
-                <h3>Quick Links</h3>
-                <a href="{% url 'landing' %}" class="footer-link">Home</a>
-                <a href="{% url 'browse_brokers' %}" class="footer-link">Browse Brokers</a>
-                <a href="{% url 'about' %}" class="footer-link">About Us</a>
-            </div>
-
-            <div>
-                <h3>Contact Info</h3>
-                <p class="footer-text">Email: info@brokershub.com</p>
-                <p class="footer-text">Phone: +1 (555) 123-4567</p>
-                <p class="footer-text">Support: Mon - Fri, 9AM - 6PM</p>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2026 BrokersHub. All rights reserved.</p>
-        </div>
-    </footer>
-
-    {% include 'partials/navbar_script.html' %}
 </body>
 
 </html>

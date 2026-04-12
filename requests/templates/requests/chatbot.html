@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Shopping Assistant - BrokersHub</title>
+    <link rel="stylesheet" href="{% static 'css/landing_page.css' %}">
+    <link rel="stylesheet" href="{% static 'requests/css/chatbot.css' %}">
+</head>
+<body>
+
+{% include 'partials/navbar.html' %}
+
+<div class="page-hero" style="width:100%;margin-top:20px;background:linear-gradient(135deg,#3f65ff 0%,#5b48f2 48%,#7f35db 100%);padding:28px 0;text-align:center;">
+    <div style="font-size:36px;margin-bottom:8px;">🤖</div>
+    <h1 style="color:#fff;font-size:26px;font-weight:700;margin:0 0 6px;">AI Shopping Assistant</h1>
+    <p style="color:rgba(255,255,255,.8);font-size:14px;margin:0 0 14px;">Compare prices across platforms — find the best deal</p>
+    <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;">
+        <span class="platform-badge">🛍️ Amazon</span>
+        <span class="platform-badge">👗 Shein</span>
+        <span class="platform-badge">🛒 Temu</span>
+    </div>
+</div>
+
+<div class="container section" style="max-width:900px;">
+
+    <div class="chat-card">
+        <div id="chat-box" class="chat-box">
+            <div class="msg-bubble" style="display:flex;align-items:flex-start;gap:10px;">
+                <div class="ai-avatar">🤖</div>
+                <div class="ai-bubble">
+                    <p>👋 Hi! I'm your AI shopping assistant. Select a category or tell me what you're looking for — I'll compare prices on Amazon, Shein &amp; Temu!</p>
+                </div>
+            </div>
+        </div>
+        <div class="chat-input-row">
+            <input type="text" id="chat-input" class="chat-input" placeholder="Type what you're looking for..." onkeydown="if(event.key==='Enter') sendMessage()">
+            <button onclick="sendMessage()" class="btn btn-light">Send ➤</button>
+        </div>
+        <p class="chat-footer-note">Powered by AI · Compares Amazon, Shein &amp; Temu</p>
+    </div>
+
+    <div id="results-area" style="display:none;margin-bottom:24px;">
+        <div id="results-container"></div>
+    </div>
+
+    <div style="text-align:center;margin-top:24px;">
+        <p style="font-size:13px;color:#62708f;margin-bottom:12px;">Browse by category:</p>
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;">
+            <button class="cat-btn" onclick="categorySearch('Shopping','🛍️')">🛍️ Shopping</button>
+            <button class="cat-btn" onclick="categorySearch('Electronics','📱')">📱 Electronics</button>
+            <button class="cat-btn" onclick="categorySearch('Fashion','👗')">👗 Fashion</button>
+            <button class="cat-btn" onclick="categorySearch('Home and Living','🏠')">🏠 Home &amp; Living</button>
+            <button class="cat-btn" onclick="categorySearch('Travel','✈️')">✈️ Travel</button>
+            <button class="cat-btn" onclick="categorySearch('Sports','⚽')">⚽ Sports</button>
+        </div>
+    </div>
+</div>
+
+{% include 'partials/footer.html' %}
+
+<script>
+    const chatSearchUrl = "{% url 'chatbot_search' %}";
+</script>
+<script src="{% static 'requests/js/chatbot.js' %}"></script>
+</body>
+</html>
