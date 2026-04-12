@@ -22,6 +22,8 @@ def login_view(request):  # Added: handle customer login before request creation
             request.session['user_id'] = user.id  # Added: store the logged-in user id for the current project flow.
             request.session['role'] = user.role  # Added: keep the account role in session for future checks.
             request.session['username'] = user.username  # Added: keep a small user label in session.
+            if user.role == 'broker' and (next_url == '/' or next_url == '/login'):
+                return redirect('/broker-landing/')
             return redirect(next_url)  # Added: send the user back to the page they originally wanted.
 
         if user and user.role != expected_role:  # Added: block accounts that do not match the expected role for this login flow.
